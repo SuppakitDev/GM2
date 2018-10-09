@@ -394,6 +394,7 @@ for($i = 0 ; $i < $COUNT ; $i++)
             }
         }
         }
+       
         } //close function
 
     public function Linenotify()
