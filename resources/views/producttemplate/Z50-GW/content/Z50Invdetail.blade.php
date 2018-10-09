@@ -596,7 +596,7 @@ setInterval(function () {
                         chartpower.series[0].setData(newpowerdata);   
                      console.log(newpowerdata);
                     });
-}, 10000);    
+}, 300000);    
 });
 });
 
@@ -691,7 +691,7 @@ setInterval(function () {
                         chartpoweraccum.series[0].setData(newpoweraccumdata);   
                      console.log(newpoweraccumdata);
                     });
-}, 10000);    
+}, 300000);    
 });
 });
 
@@ -810,7 +810,7 @@ if (chartSpeed) {
 
 // RPM
 
-}, 10000);
+}, 300000);
 });
 
  // Chart respon
@@ -830,7 +830,7 @@ if (chartSpeed) {
 
                 chart.series[0].addPoint(point, true, shift);
  
-                setTimeout(requestData, 10000);    
+                setTimeout(requestData, 300000);    
                         },
                 cache: false
             });
@@ -935,7 +935,7 @@ if (chartSpeed) {
                         });      
                     }
                 );
-    }, 10000);
+    }, 300000);
 
 //  Request new power accum into text display 
          setInterval(function () {
@@ -953,7 +953,7 @@ if (chartSpeed) {
                         });      
                     }
                 );
-    }, 10000);
+    }, 300000);
 
     //  Request new power accum into text display 
     setInterval(function () {
@@ -971,7 +971,7 @@ if (chartSpeed) {
                         });      
                     }
                 );
-    }, 10000);
+    }, 300000);
 
     //  Request new CO2 Avoided into text display 
     setInterval(function () {
@@ -989,7 +989,7 @@ if (chartSpeed) {
                         });      
                     }
                 );
-    }, 10000);
+    }, 300000);
             
 </script>
 
@@ -1012,7 +1012,7 @@ if (chartSpeed) {
                         });      
                     }
                 );
-    }, 10000);
+    }, 300000);
 
                     setInterval(function () {
         // getdetail 
@@ -1032,7 +1032,7 @@ if (chartSpeed) {
                         });      
                     }
                 );
-    }, 10000);
+    }, 300000);
 
                  setInterval(function () {
         // getdetail 
@@ -1052,7 +1052,7 @@ if (chartSpeed) {
                         });      
                     }
                 );
-    }, 10000);
+    }, 300000);
             </script>
 
             <script>
@@ -1072,7 +1072,7 @@ if (chartSpeed) {
                     });    
                        
             });     
-    }, 10000);
+    }, 300000);
 
             setInterval(function () {
         $.ajax(
@@ -1090,7 +1090,7 @@ if (chartSpeed) {
                     });    
                        
             });     
-    }, 10000);
+    }, 300000);
 
             setInterval(function () {
         $.ajax(
@@ -1108,7 +1108,7 @@ if (chartSpeed) {
                     });    
                        
             });     
-    }, 10000);
+    }, 300000);
             </script>
 
             <!-- <script>
@@ -1206,7 +1206,7 @@ function btnclose()
                            
                        }
                     });     
-    }, 1000);
+    }, 300000);
 
 
 
@@ -1288,31 +1288,9 @@ function closeNav() {
     
 }
 </script>
-<script>
-setInterval(function () {
-    $.ajax(
-            {
-                url: '/Updatesumofdata',
-                type: 'GET',   
-            }).done( 
 
-                );
-}, 300000); 
-</script>
 
-<script>
 
-$(document).ready(function() {
-    $.ajax(
-            {
-                url: '/Updatesumofdata',
-                type: 'GET',   
-            }).done( 
-                
-                );
-});
-       
-</script>
 
 
 <script>
@@ -1334,3 +1312,8 @@ geocoder.geocode( { 'address': address}, function(results, status)
 }); 
 }
 </script>
+
+
+
+
+

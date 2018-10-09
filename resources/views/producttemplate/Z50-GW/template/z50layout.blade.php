@@ -50,19 +50,19 @@
                         </div>                                                                        
                     </li>
                     <!--//////////////////////////////////////////////////////////-->
-                    <!-- แสดงเฉพาะ Manager level -->
+                    <!-- ????????? Manager level -->
                     @if(Auth::user()->Status == 'MANAGER')
                     <li>
                     <a href="#" id="showModalSUM"><span class="fa fa-list-alt" style="color:#33FFBD;" ></span><span class="xn-text">MCOT Report</span><span  class="pull-right"> <img id="ReportLoader" style="height:30px;width:30px;display:none;" src="m250\img\22.gif"></span></a>
                     @endif
-                                <!-- แสดงเฉพาะ Manager level -->
+                                <!-- ????????? Manager level -->
                     <style type="text/css">
       .modal .modal-dialog {
         width: 320px;
         text-align:center;
       }
     </style>
-     <!-- แสดงเฉพาะ Manager level -->
+     <!-- ????????? Manager level -->
      @if(Auth::user()->Status == 'MANAGER')
                     <script type="text/javascript">
         window.onload = function() {
@@ -149,7 +149,7 @@
         }
     </script>
         @endif
-                                <!-- แสดงเฉพาะ Manager level -->
+                                <!-- ????????? Manager level -->
                   
                     </li>
                     <div id="modal55" class="modal">
@@ -233,12 +233,12 @@
                         <a href="#"><span class="fa fa-bars" style="color:#EA574B;"></span></a>
                         <ul class="xn-drop-left">
                             <li><a href="/Z50Profile"><span class="fa fa-user"></span> Profile</a></li>
-                                <!-- แสดงเฉพาะ Manager level -->
+                                <!-- ????????? Manager level -->
                                 @if(Auth::user()->Status == 'MANAGER')
                             <li><a href="/Z50Managementuser"><span class="fa fa-group"></span> Management User</a></li>
                             <li><a href="/TestNotify"><span class="glyphicon glyphicon-send"></span> LineNotify test</a></li>
                                 @endif
-                                <!-- แสดงเฉพาะ Manager level -->
+                                <!-- ????????? Manager level -->
                             <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Log out</a></li>
                                                     
                         </ul>
@@ -251,7 +251,7 @@
 
 
 
-                <!-- แสดงเฉพาะ Manager level -->
+                <!-- ????????? Manager level -->
                 @if(Auth::user()->Status == 'MANAGER')
                     <li class="pull-right">
                     <a href="#"><span class="fa fa-cogs" style="color:#EA574B;" ></span>Site setting</a>
@@ -311,7 +311,7 @@
                     </li>
                     <!-- END TASKS -->
                     @endif
-                <!-- แสดงเฉพาะ Manager level -->
+                <!-- ????????? Manager level -->
                     <li class=" pull-right">
                         
                         <a href="/GotothisSite"><span class="fa fa-building-o" style="color:#EA574B;" ></span>My site</a>
@@ -444,7 +444,90 @@ $(document).ready(function() {
             });     
     
 
-});
+         $.ajax(
+            {
+                url: "/getstatustranfer",
+                type: 'GET',   
+            }).done( 
+                function(SerialNoitem) 
+                    {
+                        console.log(SerialNoitem);
+                        
+                        SerialNoitem.forEach(function(status,index) {
+                        
+                            switch(status) {
+                                                                case "A":
+                                                                    document.getElementById("INV"+index).setAttribute("class", "fa fa-circle text");
+                                                                    document.getElementById("INV"+index).style.color = "#74EB8A";
+                                                                    break;
+                                                                case "B":
+                                                                    document.getElementById("INV"+index).setAttribute("class", "fa fa-circle text");
+                                                                    document.getElementById("INV"+index).style.color = "#E9FA5E";                                                             
+                                                                    break;
+                                                                case "C":         
+                                                                    document.getElementById("INV"+index).setAttribute("class", "fa fa-circle text");
+                                                                    document.getElementById("INV"+index).style.color = "#FB3B36";
+                                                                    break;
+                                                                default:       
+                                                                    document.getElementById("INV"+index).setAttribute("class", "fa fa-circle text");
+                                                                    document.getElementById("INV"+index).style.color = "gray";                                                                                                                                                 
+                                                            } 
+
+                    });       
+            });     
+// }); 
+
+
+        $.ajax(
+            {
+                url: "/getstatusInverter",
+                type: 'GET',   
+            }).done( 
+                function(SerialNoitem) 
+                    {
+                        // console.log(pvarray);
+                        
+                        SerialNoitem.forEach(function(status,index) {
+                        
+                            switch(status) {
+                                                                case "A":
+                                                                    document.getElementById("Pcsstatus"+index).setAttribute("class", "fa fa-bolt");
+                                                                    document.getElementById("Pcsstatus"+index).style.color = "#FFFF47";
+                                                                    break;
+                                                                case "B":
+                                                                    document.getElementById("Pcsstatus"+index).setAttribute("class", "fa fa-bolt");
+                                                                    document.getElementById("Pcsstatus"+index).style.color = "#03EBA6";                                                             
+                                                                    break;
+                                                                case "C":         
+                                                                    document.getElementById("Pcsstatus"+index).setAttribute("class", "fa fa-bolt");
+                                                                    document.getElementById("Pcsstatus"+index).style.color = "#E4523B";
+                                                                    break;
+                                                                case "D":         
+                                                                    document.getElementById("Pcsstatus"+index).setAttribute("class", "fa fa-bolt");
+                                                                    document.getElementById("Pcsstatus"+index).style.color = "#A6A5A1";
+                                                                    break;
+                                                                case "E":         
+                                                                    document.getElementById("Pcsstatus"+index).setAttribute("class", "fa fa-bolt");
+                                                                    document.getElementById("Pcsstatus"+index).style.color = "#50EBC6";
+                                                                    break;
+                                                                case "F":         
+                                                                    document.getElementById("Pcsstatus"+index).setAttribute("class", "fa fa-bolt");
+                                                                    document.getElementById("Pcsstatus"+index).style.color = "#680016";
+                                                                    break;
+                                                                case "G":         
+                                                                    document.getElementById("Pcsstatus"+index).setAttribute("class", "fa fa-bolt");
+                                                                    document.getElementById("Pcsstatus"+index).style.color = "#FF0000";
+                                                                    break;
+                                                                default:       
+                                                                    document.getElementById("Pcsstatus"+index).setAttribute("class", "fa fa-bolt");
+                                                                    document.getElementById("Pcsstatus"+index).style.color = "#FFFFFF";                                                                                                                                                 
+                                                            } 
+
+                    });       
+            });     
+}); 
+
+// });
 
 setInterval(function () {
     $.ajax(
@@ -478,7 +561,7 @@ setInterval(function () {
 
                     });       
             });     
-}, 1000); 
+}, 300000); 
 
 setInterval(function () {
     $.ajax(
@@ -528,7 +611,7 @@ setInterval(function () {
 
                     });       
             });     
-}, 1000); 
+}, 300000); 
 </script>
 
 <script>

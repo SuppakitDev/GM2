@@ -194,7 +194,73 @@ $.getJSON('/getINVStatus?Serialno={{$Z50serials}}', function (status) {
                                                             } 
                                     })
                                 // Change css follow status function Stop
-}, 1000);
+}, 300000);
+
+$(document).ready(function() {
+
+if (chartSpeed{{$Z50serials}}) {
+    $.getJSON('/getZ50power_out?Serialno={{$Z50serials}}', function (data) {
+                                        console.log(data);                                      
+                                        chartSpeed{{$Z50serials}}.series[0].setData(data);   
+                                })
+
+
+    //tranfer status
+}
+
+// Change css follow status function Start 
+$.getJSON('/getINVStatus?Serialno={{$Z50serials}}', function (status) {
+                                            // console.log(status);
+                                            switch(status) {
+                                                                case "A":
+                                                                    document.getElementById("Statusbar{{$Z50serials}}").style.backgroundColor = "#FFFF47";
+                                                                    document.getElementById("status{{$Z50serials}}").innerHTML = "Grid connection in preparation.";
+                                                                    document.getElementById("status{{$Z50serials}}").style.color = "#FFFF47";                                                                                                                                       
+                                                                    break;
+                                                                case "B":
+                                                                    document.getElementById("Statusbar{{$Z50serials}}").style.backgroundColor = "#03EBA6";
+                                                                    document.getElementById("status{{$Z50serials}}").innerHTML = "Grid connection in operation"; 
+                                                                    document.getElementById("status{{$Z50serials}}").style.color = "#03EBA6";                                                                                                                                       
+                                                                    break;
+                                                                case "C":
+                                                                    document.getElementById("Statusbar{{$Z50serials}}").style.backgroundColor = "#E4523B";                                                                                                                                        
+                                                                    document.getElementById("status{{$Z50serials}}").innerHTML = "Grid connection in manual stop";
+                                                                    document.getElementById("status{{$Z50serials}}").style.color = "#E4523B";                                                                                                                                       
+                                                                                                                                        
+                                                                    break;
+                                                                case "D":
+                                                                    document.getElementById("Statusbar{{$Z50serials}}").style.backgroundColor = "#A6A5A1";                                                           
+                                                                    document.getElementById("status{{$Z50serials}}").innerHTML = "Stand alone in preparation."; 
+                                                                    document.getElementById("status{{$Z50serials}}").style.color = "#A6A5A1";                                                                                                                                       
+                                                                                                                                       
+                                                                    break;
+                                                                case "E":
+                                                                    document.getElementById("Statusbar{{$Z50serials}}").style.backgroundColor = "#50EBC6";                                                           
+                                                                    document.getElementById("status{{$Z50serials}}").innerHTML = "Stand alone in operation."; 
+                                                                    document.getElementById("status{{$Z50serials}}").style.color = "#50EBC6";                                                                                                                                       
+                                                                                                                                       
+                                                                    break;
+                                                                case "F":
+                                                                    document.getElementById("Statusbar{{$Z50serials}}").style.backgroundColor = "#680016";                                                           
+                                                                    document.getElementById("status{{$Z50serials}}").innerHTML = "Stand alone in manual stop."; 
+                                                                    document.getElementById("status{{$Z50serials}}").style.color = "#680016";                                                                                                                                       
+                                                                                                                                       
+                                                                    break;
+                                                                case "G":
+                                                                    document.getElementById("Statusbar{{$Z50serials}}").style.backgroundColor = "#FF0000";                                                           
+                                                                    document.getElementById("status{{$Z50serials}}").innerHTML = "Failure or into systems error."; 
+                                                                    document.getElementById("status{{$Z50serials}}").style.color = "#FF0000";                                                                                                                                       
+                                                                                                                                       
+                                                                    break;
+                                                                default: //"H"
+                                                                    document.getElementById("Statusbar{{$Z50serials}}").style.backgroundColor = "#FFFFFF";
+                                                                    document.getElementById("status{{$Z50serials}}").innerHTML = "Setting value.";  
+                                                                    document.getElementById("status{{$Z50serials}}").style.color = "#FFFFFF";                                                                                                                                       
+                                                                                                                                                                                                              
+                                                            } 
+                                    })
+
+});
 
 </script>
 
@@ -242,16 +308,3 @@ setInterval(function () {
 }, 300000); 
 </script>
 
-<script>
-
-$(document).ready(function() {
-    $.ajax(
-            {
-                url: '/Updatesumofdata',
-                type: 'GET',   
-            }).done( 
-                
-                );
-});
-       
-</script>
