@@ -1,0 +1,21 @@
+<!-- ================================================= -->
+<!-- Project Name  : GM2(Mcot,Local monitoring)     -->
+<!-- Begin         :        -->
+<!-- Last update   : 09/10/2018         -->
+
+<!-- Description   : Web monitoring of z50 Single phase Inverter with WifiModule(ESP-8266) -->
+
+<!-- Author        : Suppakit Siriso -->
+
+<!-- (c) Copyright:
+                     Suppakit Siriso -->
+<!--                 R&D Department      -->
+<!--                 Thai-tabuchi.co.th  -->
+
+<!--      SUPPAKIT@thai-tabuchi.com       -->
+
+
+<!-- ================ Version Descript =============== -->
+## Version 1.0.0   : Version field test on hostinger server, Conplete first version and Intervaltime every 5 minute. With out Sero Export Display.
+## Version 1.1.0   : Add Zero Export Status in Inverter Detail.(Start:10/10/2018 -> Finish:######)
+<!-- ================================================= -->
