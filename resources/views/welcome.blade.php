@@ -12,7 +12,7 @@
 <!-- npprogress -->
     <script type="text/javascript" src="/pinfo/js/jquery/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="/pinfo/js/script.js"></script>
-    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <!-- <script src='https://www.google.com/recaptcha/api.js'></script> -->
 
 
   <!-- Fonts -->
@@ -246,7 +246,7 @@
                             <div class="form-group">
                             <div class="col-md-6 col-md-offset-4" style="margin-left: 0%;margin-bottom: 2%;" >
                             
-                            <div class="g-recaptcha" data-theme="dark" data-sitekey="6LebVmsUAAAAAF6-PNwOgUu-bBhnBUP_jNvPs24e"></div>
+                            <!-- <div class="g-recaptcha" data-theme="dark" data-sitekey="6LebVmsUAAAAAF6-PNwOgUu-bBhnBUP_jNvPs24e"></div> -->
                             
                             </div>
                         </div>

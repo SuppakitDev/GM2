@@ -186,6 +186,7 @@ Route::get('/Insertsumofdata','Z50Controller@Insertsumofdata');
 Route::get('/getserialnolist','Z50Controller@getserialnolist');
 Route::get('/getstatustranfer','Z50Controller@getstatustranfer');
 Route::get('/getstatusInverter','Z50Controller@getstatusInverter');
+Route::get('/getstatuszeroexport','Z50Controller@getstatuszeroexport');
 
 Route::get('/todayenergyItem','Z50Controller@todayenergyItem');
 
@@ -211,6 +212,7 @@ Route::get('/z50gettodayenergylayoutdetail','Z50Controller@z50gettodayenergylayo
 Route::get('/z50getlastmodellayoutdetail','Z50Controller@z50getlastmodellayoutdetail');
 Route::get('/z50getlastSeriallayoutdetail','Z50Controller@z50getlastSeriallayoutdetail');
 Route::get('/z50getlaststatuslayoutdetail','Z50Controller@z50getlaststatuslayoutdetail');
+Route::get('/getzeroexportdetail','Z50Controller@getzeroexportdetail');
 Route::get('/getstring1','Z50Controller@getstring1');
 Route::get('/getstring2','Z50Controller@getstring2');
 Route::get('/getstring3','Z50Controller@getstring3');
@@ -254,4 +256,6 @@ Route::get('getlastaccumofallitem','Z50Controller@getlastaccumofallitem');
 
 Route::get('getMonthlydataZ50','Z50PeriodGraphController@getMonthlydataZ50');
 Route::get('getYearlydataZ50','Z50PeriodGraphController@getYearlydataZ50');
+
+
 

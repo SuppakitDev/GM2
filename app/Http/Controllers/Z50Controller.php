@@ -1787,7 +1787,6 @@ foreach ($accum as $accums) {
         ]);
     }
 
-
     public function Updatesumofdata()
     {
         // ดึงข้อมูลชุดสุดท้ายออกมา
@@ -1806,11 +1805,11 @@ foreach ($accum as $accums) {
         {
             $Tranfer_statusArray = [];
             $Pcs_statusArray = [];
-    $serialnolist = DB::table('z50_site')
+            $serialnolist = DB::table('z50_site')
                     ->where('Site_ID', '=', $Site_IDF[$Sitei])
                     ->select('SerialNolist')
                     ->get();
-    foreach ($serialnolist as $serialnolists) 
+        foreach ($serialnolist as $serialnolists) 
         {
             $SerialNolist = explode(",",$serialnolists->SerialNolist);
         }
@@ -1818,7 +1817,7 @@ foreach ($accum as $accums) {
         {
                     $result = DB::table('z50pcs_info')
                     ->where('SerialNo','=',$SerialNolist[$i])
-                    ->select('RT_powerout','Pcs_status','RT_poweraccum','created_at','SerialNo')
+                    ->select('RT_powerout','Pcs_status','RT_poweraccum','created_at','Zeroexport','SerialNo')
                     ->latest()
                     ->limit(1)
                     ->get();
@@ -1841,6 +1840,8 @@ foreach ($accum as $accums) {
                         $RT_powerout = 0;
                         $RT_poweraccum = $results->RT_poweraccum;
                         $Pcs_status = $results->Pcs_status;
+                        $Zeroexport = $results->Zeroexport;
+                        // $ZeroexportControll = $results->ZeroexportControll;
                         $Tranfer_status = "B";
                     }
                     else
@@ -1848,6 +1849,8 @@ foreach ($accum as $accums) {
                         $RT_powerout = $results->RT_powerout;
                         $RT_poweraccum = $results->RT_poweraccum;
                         $Pcs_status = $results->Pcs_status;
+                        $Zeroexport = $results->Zeroexport;
+                        // $ZeroexportControll = $results->ZeroexportControll;
                         $Tranfer_status = "A";
                     }
                 }
@@ -1855,6 +1858,9 @@ foreach ($accum as $accums) {
                 $RT_poweroutArray[] = $RT_powerout;
                 $RT_poweraccumArray[] = $RT_poweraccum;
                 $Pcs_statusArray[] = $Pcs_status;
+                $ZeroexportArray[] = $Zeroexport;
+                // $ZeroexportControllArray[] = $ZeroexportControll;
+
 
         //เซ็ตค่า Default ในกรณีที่ไม่มีข้อมูลของ Serialno นั้นเข้ามา    
                 $RT_powerout = 0;
@@ -1862,6 +1868,8 @@ foreach ($accum as $accums) {
 
                 $Tranfer_status = "C";
                 $Pcs_status = "I";
+                $Zeroexport = "00";
+                // $ZeroexportControll = "0";
 
                 
                 $RT_poweroutTotal = array_sum($RT_poweroutArray);
@@ -1872,12 +1880,12 @@ foreach ($accum as $accums) {
 
         $updateDetails=array(
             'Tranfer_status' => implode(",",$Tranfer_statusArray),
-            'Pcs_status' => implode(",",$Pcs_statusArray)
+            'Pcs_status' => implode(",",$Pcs_statusArray),
+            'Zeroexport' => implode(",",$ZeroexportArray),
+            // 'ZeroexportControll' => implode(",",$ZeroexportControllArray),
         );
 
 
-        
-  
         $data = sum_of_z50info::where('Site_ID','=',$Site_IDF[$Sitei])
         ->latest()
         ->LIMIT(1)
@@ -1887,49 +1895,9 @@ foreach ($accum as $accums) {
 
     }
 
-
-// ส่วนของการทดลองดึงพลังงานในแต่ละวัน(เสร็จแล้ว!!!!)
-// public function todayenergyItem()
-//     {
-//         header("Content-type: text/json");
-//             // Serial Item
-//             $SerialNoitem = DB::table('users')
-//             ->where('id','=', Auth::user()->id) //จำลองการกรองในอนาคต ต้องใช้ Serial NO
-//             ->latest() 
-//             ->select('SerialNoitem')
-//             ->limit(1)  
-//             ->get();          
-//             foreach ($SerialNoitem as $SerialNoitems) 
-//             {
-//                 $SerialNoitem = $SerialNoitems->SerialNoitem;  
-//             }
-//             $SerialNoitem = explode(",",$SerialNoitem); 
-//             $result = array();
-//             for($p = 0 ; $p < sizeof($SerialNoitem) ; $p++)
-//             {
-                
-//                 $Energytoday = DB::table('z50pcs_info')
-//                 ->where('Site_ID','=',Auth::user()->Site_ID)
-//                 ->where('SerialNo','=',$SerialNoitem[$p]) 
-//                 ->whereDate('created_at' ,'=', date('Y-m-d'))
-//                 ->selectRaw('MAX(RT_poweraccum) - MIN(RT_poweraccum)  as y')
-//                 ->get();
-//                 foreach( $Energytoday as $Energytodays ){
-//                    $Energytoday = number_format($Energytodays->y,2);
-//                }
-//                $result[$p] = $Energytoday;
-               
-//             }
-            
-//             $Energytoday = array_sum($result);
-
-//             return Response::json($Energytoday, 200, [], JSON_NUMERIC_CHECK); 
-//     }
-
 public function getlastaccumofallitem()
 {
    
-
     // All SerialNo Item
     $SerialNoitem = DB::table('users')
     ->where('id','=', Auth::user()->id) //จำลองการกรองในอนาคต ต้องใช้ Serial NO
@@ -2005,5 +1973,97 @@ foreach ($data as $datas) {
 return $data;
 
 }
+
+public function getstatuszeroexport()
+    {   
+
+        header("Content-type: text/json");
+        $statusInv = DB::table('sum_of_z50info')
+        ->where('Site_ID','=', Auth::user()->Site_ID) //จำลองการกรองในอนาคต ต้องใช้ Serial NO
+        ->latest() 
+        ->select('Zeroexport')
+        ->limit(1)  
+        ->get();          
+        foreach ($statusInv as $statusInvs) {
+            $statusInv = $statusInvs->Zeroexport;
+            
+        }
+
+        $statusInv = explode(",",$statusInv); 
+
+        // Serial Item
+        $SerialNoitem = DB::table('users')
+        ->where('id','=', Auth::user()->id) //จำลองการกรองในอนาคต ต้องใช้ Serial NO
+        ->latest() 
+        ->select('SerialNoitem')
+        ->limit(1)  
+        ->get();          
+        foreach ($SerialNoitem as $SerialNoitems) {
+            $SerialNoitem = $SerialNoitems->SerialNoitem;  
+        }
+        $SerialNoitem = explode(",",$SerialNoitem); 
+        // All SerialNo list
+        $SerialNolist = DB::table('sum_of_z50info')
+        ->where('Site_ID','=', Auth::user()->Site_ID) //จำลองการกรองในอนาคต ต้องใช้ Serial NO
+        ->latest() 
+        ->select('SerialNolist')
+        ->limit(1)  
+        ->get();          
+        foreach ($SerialNolist  as $SerialNolists) {
+            $SerialNolist = $SerialNolists->SerialNolist;  
+        }
+        $SerialNolist = explode(",",$SerialNolist); 
+
+        // Loop check
+        $ArrRef = array_fill ( 0, sizeof($SerialNolist), 0 ); // อาร์เรย์อ้างอิงค์เพื่อเก็บตำแหน่งที่มีข้อมูลของ Serial
+        
+        $StatusInvresult = array();
+        $result = array_pad ($SerialNoitem,sizeof($SerialNolist) , null);
+
+
+            for($i = 0 ; $i < sizeof($SerialNolist) ; $i++)
+            {
+                for($j = 0 ; $j < sizeof($result) ; $j++ )
+                {
+                    if($SerialNolist[$i] == $result[$j] )
+                    {
+                        $ArrRef[$i] = 1;
+                    }
+                   
+                }      
+            }
+        
+
+        for($l = 0 ; $l < sizeof($ArrRef); $l++)
+        {
+            if($ArrRef[$l] == 1 )
+            {
+                $StatusInvresult[] = $statusInv[$l];
+            }
+        }
+
+        return Response::json($StatusInvresult, 200, [], JSON_NUMERIC_CHECK);        
+
+    }
+
+    public function getzeroexportdetail()
+    {
+        header("Content-type: text/json");
+        $serialnoz50 = Input::get('SerialNo');
+        $zeroexport = DB::table('z50pcs_info')
+        // ->where('Site_ID','=', Auth::user()->Site_ID) //จำลองการกรองในอนาคต
+        ->where('SerialNo','=',$serialnoz50) 
+        ->latest() 
+        ->limit(1)                
+        ->get();
+    
+        foreach ($zeroexport as $zeroexports) {
+            $Zeroexport = $zeroexports->Zeroexport;
+            
+        }
+        // $ret = array($a);
+        return Response::json($Zeroexport, 200, [], JSON_NUMERIC_CHECK); 
+    }
+
     
 }

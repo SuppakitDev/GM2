@@ -112,7 +112,34 @@ for($i = 0 ; $i < $COUNT ; $i++)
         $api->Model_t           = $Model_t;
         $api->SerialNo          = $SerialNo;
         $api->Program_v         = $Program_v;
-        $api->Pcs_status        = $Pcs_status;
+
+// เพิ่มการจัดการข้อมูลเกี่ยวกับ ZeroExportMode และ ZeroexportController 
+        
+        $result = str_split($Program_v);
+
+            if(($result[6] == 'Z') && ($result[7] == '1'))
+            {
+                // $ZeroexportMode = "1";
+                // $ZeroexportControll = "1";
+                $Zeroexport = "Z1";
+            }
+            elseif(($result[6] == 'Z') && ($result[7] == '0'))
+            {
+                // $ZeroexportMode = "1";
+                // $ZeroexportControll = "0";
+                $Zeroexport = "Z0";
+            }
+            else
+            {
+                // $ZeroexportMode = "0";
+                // $ZeroexportControll = "0";
+                $Zeroexport = "00";
+            }
+
+        $api->Pcs_status            = $Pcs_status;
+        // $api->ZeroexportMode        = $ZeroexportMode;
+        // $api->ZeroexportControll    = $ZeroexportControll;
+        $api->Zeroexport    = $Zeroexport;
         $api->Reg_mode          = $Reg_mode;
         $api->Insp_test         = $Insp_test;
 
@@ -166,7 +193,7 @@ for($i = 0 ; $i < $COUNT ; $i++)
         {
                     $result = DB::table('z50pcs_info')
                     ->where('SerialNo','=',$SerialNolist[$i])
-                    ->select('RT_powerout','RT_poweraccum','created_at','Pcs_status','SerialNo')
+                    ->select('RT_powerout','RT_poweraccum','created_at','Pcs_status','Zeroexport','SerialNo')
                     ->latest()
                     ->limit(1)
                     ->get();
@@ -187,6 +214,8 @@ for($i = 0 ; $i < $COUNT ; $i++)
                         $RT_powerout = 0;
                         $RT_poweraccum = $results->RT_poweraccum;
                         $Pcs_status = $results->Pcs_status;
+                        $Zeroexport = $results->Zeroexport;
+                        // $ZeroexportControll = $results->ZeroexportControll;
                         $Tranfer_status = "B";
                     }
                     else
@@ -194,6 +223,8 @@ for($i = 0 ; $i < $COUNT ; $i++)
                         $RT_powerout = $results->RT_powerout;
                         $RT_poweraccum = $results->RT_poweraccum;
                         $Pcs_status = $results->Pcs_status;
+                        $Zeroexport = $results->Zeroexport;
+                        // $ZeroexportControll = $results->ZeroexportControll;
                         $Tranfer_status = "A";
                     }
                 }
@@ -202,6 +233,8 @@ for($i = 0 ; $i < $COUNT ; $i++)
                 $RT_poweroutArray[] = $RT_powerout;
                 $RT_poweraccumArray[] = $RT_poweraccum;
                 $Pcs_statusArray[] = $Pcs_status;
+                $ZeroexportArray[] = $Zeroexport;
+                // $ZeroexportControllArray[] = $ZeroexportControll;
 
         //เซ็ตค่า Default ในกรณีที่ไม่มีข้อมูลของ Serialno นั้นเข้ามา
 
@@ -209,6 +242,8 @@ for($i = 0 ; $i < $COUNT ; $i++)
                 $RT_poweraccum = 0;
                 $Tranfer_status = "C";
                 $Pcs_status = "I";
+                $Zeroexport = "00";
+                // $ZeroexportControll = "0";
 
                 $RT_poweroutTotal = array_sum($RT_poweroutArray);
                 $RT_poweraccumTotal = array_sum($RT_poweraccumArray);
@@ -255,6 +290,8 @@ for($i = 0 ; $i < $COUNT ; $i++)
         $total->RT_powerout         = implode(",",$RT_poweroutArray); 
         $total->RT_poweraccum         = implode(",",$RT_poweraccumArray); 
         $total->Pcs_status         = implode(",",$Pcs_statusArray);
+        $total->Zeroexport        = implode(",",$ZeroexportArray);
+        // $total->ZeroexportControll         = implode(",",$ZeroexportControllArray);
         $total->Linestatus        = $LS;
 
 
@@ -394,6 +431,7 @@ for($i = 0 ; $i < $COUNT ; $i++)
             }
         }
         }
+       
         } //close function
 
     public function Linenotify()

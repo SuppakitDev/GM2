@@ -151,8 +151,12 @@ function myFunction3() {
    </style>  
 <div  class="row">
     <div class="col-md-12" style="margin-bottom:10px;"> 
-        <div  class="col-md-10"style="background-color:#D1D1D1;opacity: 0.5;border-radius: 5px;">    
-            <!-- <a class="weatherwidget-io" href="https://forecast7.com/en/13d55100d99/bang-pakong-district/" data-label_1="อำเภอ บางปะกง" data-label_2="THAI TABUCHI" data-font="Verdana" data-icons="Climacons Animated" data-theme="original" data-basecolor="rgba(20, 20, 20, 0.2)" data-accent="rgba(146, 134, 134, 0)" data-textcolor="#1EAA86" data-highcolor="#ff503e" data-lowcolor="#45d7cf" data-suncolor="#fFB534" data-cloudcolor="#1EAA86" data-cloudfill="#CCCCCC" data-raincolor="#51f3df" >THAILAND WEATHER</a>
+    @if(Auth::user()->Status == 'MANAGER')
+        <div  class="col-md-10"style="background-color:#D1D1D1;opacity: 0.5;border-radius: 5px;"> 
+    @elseif(Auth::user()->Status == 'USER')  
+        <div  class="col-md-12"style="background-color:#D1D1D1;opacity: 0.5;border-radius: 5px;">
+        @endif  
+            <!-- <a class="weatherwidget-io" href="https://forecast7.com/en/13d55100d99/bang-pakong-district/" data-label_1="????? ???????" data-label_2="THAI TABUCHI" data-font="Verdana" data-icons="Climacons Animated" data-theme="original" data-basecolor="rgba(20, 20, 20, 0.2)" data-accent="rgba(146, 134, 134, 0)" data-textcolor="#1EAA86" data-highcolor="#ff503e" data-lowcolor="#45d7cf" data-suncolor="#fFB534" data-cloudcolor="#1EAA86" data-cloudfill="#CCCCCC" data-raincolor="#51f3df" >THAILAND WEATHER</a>
             <script>
             !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
             </script>   -->
@@ -178,12 +182,13 @@ geocoder.geocode( { 'address': address}, function(results, status)
 </script>
         </div>
                               
-        
+        @if(Auth::user()->Status == 'MANAGER')
         <div class="col-md-2" style="margin-top:22px;"> 
                                
                             <a style="background-color:#F0675C;border-style: none;" id="showModal" href="#" data-toggle="modal" data-target="#myModal" class="tile tile tile-valign"><span style="font-size:80%;" class="fa fa-laptop"> Export</span></a>
                                                       
                         </div>   
+        @endif
                                          
                         
     </div>
@@ -712,7 +717,7 @@ setInterval(function () {
                         chartpower.series[0].setData(newpowerdata);   
                      console.log(newpowerdata);
                     });
-}, 10000);    
+}, 300000);    
 });
 });
 
@@ -807,7 +812,7 @@ setInterval(function () {
                         chartpoweraccum.series[0].setData(newpoweraccumdata);   
                      console.log(newpoweraccumdata);
                     });
-}, 10000);    
+}, 300000);    
 });
 });
 
@@ -925,7 +930,7 @@ if (chartSpeed) {
 
 // RPM
 
-}, 10000);
+}, 300000);
 });
 
 
@@ -948,7 +953,7 @@ if (chartSpeed) {
                         });      
                     }
                 );
-    }, 10000);
+    }, 300000);
 
 //  Request new power accum into text display 
          setInterval(function () {
@@ -966,7 +971,7 @@ if (chartSpeed) {
                         });      
                     }
                 );
-    }, 10000);
+    }, 300000);
 
     //  Request new power accum into text display 
     setInterval(function () {
@@ -984,7 +989,7 @@ if (chartSpeed) {
                         });      
                     }
                 );
-    }, 10000);
+    }, 300000);
 
     //  Request new CO2 Avoided into text display 
     setInterval(function () {
@@ -1002,7 +1007,7 @@ if (chartSpeed) {
                         });      
                     }
                 );
-    }, 10000);
+    }, 300000);
             
 </script>
 
@@ -1064,7 +1069,7 @@ if (chartdonut) {
 
 // RPM
 
-}, 10000);
+}, 300000);
 });
 </script>
 
@@ -1118,7 +1123,7 @@ setInterval(function () {
             }).done( 
                 );
 
-}, 120000); 
+}, 250000); 
 </script>
 
 <script>
@@ -1138,7 +1143,7 @@ $(document).ready(function() {
 </script>
 
 
-<!-- ส่วนของการจัดการเรียกดูข้อมูลย้อนหนังของกราฟ -->
+<!-- ???????????????????????????????????????????? -->
 
 <script>
 // Input day,month,year
@@ -1297,7 +1302,7 @@ $.ajax(
                     Dailydetailchart.series[1].setData(newdata);   
                  console.log("new last data "+newdata);
                 });
-}, 10000);  
+}, 300000);  
 });
 }
 
@@ -1425,7 +1430,7 @@ $.ajax(
                     OnchangeDailydetailchart.series[1].setData(newdata);   
                  console.log("new last data "+newdata);
                 });
-}, 10000);  
+}, 300000);  
 });
 });
 </script>
@@ -1871,7 +1876,7 @@ $.getJSON('/getYearlydataZ50?Yearly='+Yearly, function(data){
 }
 </script>
 
-<!-- ส่วนของการจัดการเรียกดูข้อมูลย้อนหนังของกราฟ -->
+<!-- ???????????????????????????????????????????? -->
 
 <script>
 $(document).ready(function() {
@@ -1906,8 +1911,7 @@ $(document).ready(function() {
                         });      
                     }
                 );
-})
+});
 </script>
 
-<!-- Test Commit -->
-<!-- Test Commit2 for cmd push -->
+

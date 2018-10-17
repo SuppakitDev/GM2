@@ -22,9 +22,67 @@
     <link rel="stylesheet" href="https://unpkg.com/rmodal@1.0.28/dist/rmodal.css" type="text/css" />
     <script type="text/javascript" src="https://unpkg.com/rmodal@1.0.26/dist/rmodal.js"></script>
     
-    
+    <link rel="stylesheet" type="text/css" href="css/csshake.min.css">
   <link rel="stylesheet" type="text/css" href="css/sweetalert.css">                                  
     </head>
+    <style>
+    .breathing {
+    
+    -webkit-animation: breathing 1s ease-out infinite normal;
+    animation: breathing 1s ease-out infinite normal;
+    -webkit-font-smoothing: antialiased;
+       
+    }
+
+
+@-webkit-keyframes breathing {
+  0% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  25% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  60% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  100% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+}
+
+@keyframes breathing {
+  0% {
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  25% {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+  }
+
+  60% {
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  100% {
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+}
+    </style>
     <body>
         <!-- START PAGE CONTAINER -->
         <div class="page-container">           
@@ -147,6 +205,9 @@
                     <!-- TOGGLE NAVIGATION -->
                     <li class="xn-icon-button">
                         <a href="#" class="x-navigation-minimize"><span class="fa fa-dedent"></span></a>
+                        <!-- <div id="breathing-button"> -->
+                        <img id='zeroexport'  src='/img/Zeroexport3.png' height='50px' width='80px'  >
+                        <!-- </div> -->
                     </li>
                     
                      <li class="pull-right">
@@ -364,7 +425,7 @@ $(document).ready(function(){
                         document.getElementById("power").innerHTML = element+' kW' ;
                     });
                     });
-    }, 10000);
+    }, 300000);
 });
 
 $(document).ready(function(){
@@ -384,7 +445,7 @@ $(document).ready(function(){
                         document.getElementById("todayenergy").innerHTML = element+' kWh' ;    
                     });
                     });
-    }, 10000);
+    }, 300000);
 });
 
 $(document).ready(function(){
@@ -405,7 +466,7 @@ $(document).ready(function(){
                            
                     });
                     });
-    }, 10000);
+    }, 300000);
 });
 
 $(document).ready(function(){
@@ -427,7 +488,7 @@ $(document).ready(function(){
                            
                     });
                     });
-    }, 1000);
+    }, 300000);
 });
 
 $(document).ready(function(){
@@ -448,11 +509,230 @@ $(document).ready(function(){
                            
                     });
                     });
-    }, 10000);
+    }, 300000);
+
+setInterval(function () 
+    {
+               $.ajax(
+            {
+                url: "/getzeroexportdetail?SerialNo={{$serialnoz50}}",
+                type: 'GET',   
+            }).done( 
+                function(zerodetail) 
+                    {
+                        switch(zerodetail) {
+                                                                case "Z1":
+                                                                    document.getElementById("zeroexport").setAttribute("style", "display: inline;");
+                                                                    document.getElementById("zeroexport").setAttribute("class", "breathing");
+                                                                    // document.getElementById("Z1"+index).style.color = "#74EB8A";
+                                                                    break;
+                                                                case "Z0":
+                                                                    document.getElementById("zeroexport").setAttribute("style", "-webkit-filter: grayscale(100%);filter: grayscale(100%);display: inline;");
+                                                                    document.getElementById("zeroexport").setAttribute("class", "");
+                                                                    // document.getElementById("Z1"+index).style.color = "#E9FA5E";                                                             
+                                                                    break;
+                                                                case "00":         
+                                                                    document.getElementById("zeroexport").setAttribute("style", "display: none;");
+                                                                    // document.getElementById("Z1"+index).style.color = "#FB3B36";
+                                                                    break;
+                                                                default:       
+                                                                    document.getElementById("zeroexport").setAttribute("style", "display: none;");
+                                                                    // document.getElementById("Z1"+index).style.color = "gray";                                                                                                                                                  
+                                                            }  
+                        
+                    }); 
+                }, 300000);
+
 });
 
 </script>
 
 
 
+<script>
+$(document).ready(function() {
 
+    $.ajax(
+            {
+                url: "/z50getlastdatalayoutdetail?SerialNo={{$serialnoz50}}",
+                type: 'GET',   
+            }).done( 
+                function(power) 
+                    {
+                        console.log(power);
+                        power.forEach(function(element,index) {
+                            "use strict";
+                        // console.log(index+"->"+element); 
+                        document.getElementById("power").innerHTML = element+' kW' ;
+                    });
+                    });
+
+    $.ajax(
+            {
+                url: "/z50gettodayenergylayoutdetail?SerialNo={{$serialnoz50}}",
+                type: 'GET',   
+            }).done( 
+                function(energytoday) 
+                    {
+                        // console.log(energytoday);
+                        energytoday.forEach(function(element,index) {
+                            "use strict";
+                        console.log("energytoday :"+element); 
+                        document.getElementById("todayenergy").innerHTML = element+' kWh' ;    
+                    });
+                    });
+
+     $.ajax(
+            {
+                url: "/z50getlastmodellayoutdetail?SerialNo={{$serialnoz50}}",
+                type: 'GET',   
+            }).done( 
+                function(model) 
+                    {
+                        // console.log(model);
+                        model.forEach(function(element,index) {
+                            "use strict";
+                        console.log("model :"+element); 
+                        document.getElementById("model").innerHTML = element;
+                           
+                    });
+                    });
+
+     $.ajax(
+            {
+                url: "/z50getlastSeriallayoutdetail?SerialNo={{$serialnoz50}}",
+                type: 'GET',   
+            }).done( 
+                function(Serial) 
+                    {
+                        // console.log(model);
+                        Serial.forEach(function(element,index) {
+                            "use strict";
+                        console.log("Serial :"+element); 
+                        document.getElementById("Serial").innerHTML = element;
+                        document.getElementById("Serial2").innerHTML = element;
+                           
+                    });
+                    });
+
+    $.ajax(
+            {
+                url: "/z50getlaststatuslayoutdetail?SerialNo={{$serialnoz50}}",
+                type: 'GET',   
+            }).done( 
+                function(Status) 
+                    {
+                        // console.log(model);
+                        Status.forEach(function(element,index) {
+                            "use strict";
+                        console.log("Status :"+element); 
+                        document.getElementById("Status").innerHTML = element;
+                           
+                    });
+                    });
+
+
+       $.ajax(
+            {
+                url: "/getstring1?SerialNo={{$serialnoz50}}",
+                type: 'GET',   
+            }).done( 
+                function(string1) 
+                    {
+                        // console.log(pvarray);
+                        string1.forEach(function(element,index) {
+                        // console.log(index+"->"+element); 
+                        document.getElementById("string1"+index).innerHTML = element;    
+                        
+                    });    
+                       
+            });  
+
+             $.ajax(
+            {
+                url: "/getstring2?SerialNo={{$serialnoz50}}",
+                type: 'GET',   
+            }).done( 
+                function(string1) 
+                    {
+                        // console.log(pvarray);
+                        string1.forEach(function(element,index) {
+                        // console.log(index+"->"+element); 
+                        document.getElementById("string2"+index).innerHTML = element;    
+                        
+                    });    
+                       
+            });
+            
+            $.ajax(
+            {
+                url: "/getstring3?SerialNo={{$serialnoz50}}",
+                type: 'GET',   
+            }).done( 
+                function(string1) 
+                    {
+                        // console.log(pvarray);
+                        string1.forEach(function(element,index) {
+                        // console.log(index+"->"+element); 
+                        document.getElementById("string3"+index).innerHTML = element;    
+                        
+                    });    
+                       
+            });
+
+               $.ajax(
+            {
+                url: "/getzeroexportdetail?SerialNo={{$serialnoz50}}",
+                type: 'GET',   
+            }).done( 
+                function(zerodetail) 
+                    {
+                        switch(zerodetail) {
+                                                                case "Z1":
+                                                                    document.getElementById("zeroexport").setAttribute("style", "display: inline;");
+                                                                    document.getElementById("zeroexport").setAttribute("class", "breathing");
+                                                                    // document.getElementById("Z1"+index).style.color = "#74EB8A";
+                                                                    break;
+                                                                case "Z0":
+                                                                    document.getElementById("zeroexport").setAttribute("style", "-webkit-filter: grayscale(100%);filter: grayscale(100%);display: inline;");
+                                                                    // document.getElementById("Z1"+index).style.color = "#E9FA5E";                                                             
+                                                                    break;
+                                                                case "00":         
+                                                                    document.getElementById("zeroexport").setAttribute("style", "display: none;");
+                                                                    // document.getElementById("Z1"+index).style.color = "#FB3B36";
+                                                                    break;
+                                                                default:       
+                                                                    document.getElementById("zeroexport").setAttribute("style", "display: none;");
+                                                                    // document.getElementById("Z1"+index).style.color = "gray";                                                                                                                                                 
+                                                            }  
+                        
+                    });   
+
+                     $.ajax(
+            {
+                url: "/checktranfertime?SerialNo={{$serialnoz50}}",
+                type: 'GET',   
+            }).done( 
+                function(timetranfer) 
+                    {
+                       console.log("Tranferstatus: "+timetranfer);
+                       if(timetranfer === true)
+                       {
+                        closeNav();
+                        
+                       }
+                       else if(timetranfer === false)
+                       {
+                        
+                        openNav();
+                           
+                       }
+                    });    
+                       
+            });     
+
+    
+
+
+
+</script>

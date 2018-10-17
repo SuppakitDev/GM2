@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class z50pcs_info extends Model
 {
     protected $table = 'z50pcs_info';
-    protected $fillable = ['Site_ID','Comm_v','Model_t','SerialNo','Program_v','Pcs_status','Reg_mode','Insp_test','Errorcode','RT_powerout','RT_poweraccum','Statuspowerfactor','Input_Vstr1','Input_Cstr1','Acvoltage_str1'
+    protected $fillable = ['Site_ID','Comm_v','Model_t','SerialNo','Program_v','Pcs_status','Zeroexport','Reg_mode','Insp_test','Errorcode','RT_powerout','RT_poweraccum','Statuspowerfactor','Input_Vstr1','Input_Cstr1','Acvoltage_str1'
                           ,'Input_Vstr2','Input_Cstr2','Accurrent','Input_Vstr3','Input_Cstr3','Frequency','RT_powerfactor','Suppression','Recoverytime'];
     
     public function z50_sites()

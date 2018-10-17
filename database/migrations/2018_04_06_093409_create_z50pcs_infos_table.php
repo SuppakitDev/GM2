@@ -22,6 +22,8 @@ class CreateZ50pcsInfosTable extends Migration
             $table->string('SerialNo',10);
             $table->string('Program_v',8);
             $table->string('Pcs_status',1);
+            $table->string('Zeroexport',2);
+            
             $table->foreign('Pcs_status')->references('Pcs_status')->on('sts_pcs');  
             $table->string('Reg_mode',1);
             $table->foreign('Reg_mode')->references('Reg_mode')->on('reg_mode');              
