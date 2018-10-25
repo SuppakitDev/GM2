@@ -262,6 +262,7 @@ for($i = 0 ; $i < $COUNT ; $i++)
                         $Linestatus = $Linestatuss->Linestatus;
                         $TS = $Linestatuss->Tranfer_status;
                         }
+                        if(!empty($TS)){
                         $TS = explode(",",$TS); 
     if(in_array('B', $TS))
     {
@@ -278,6 +279,10 @@ for($i = 0 ; $i < $COUNT ; $i++)
     {
             $LS = 0;
     }
+}else
+{
+    $LS = 0;
+}
         //Insert to data base
 
         $total = new sum_of_z50info();

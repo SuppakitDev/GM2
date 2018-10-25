@@ -657,13 +657,26 @@ foreach ($accum as $accums) {
         $data = DB::table('sum_of_z50info')
         ->where('Site_ID','=',Auth::user()->Site_ID)
         ->whereDate('created_at' ,'=', Date($Daily))
-        ->selectRaw('(UNIX_TIMESTAMP(created_at))*1000 as x , RT_powerout as y')
+        ->selectRaw('(UNIX_TIMESTAMP(created_at))*1000 as x , RT_powerout as y , Zeroexport as color')
         // ->orderBY('x')
         ->get();
-
+         // Change color zone
+        for($c = 0 ; $c < sizeof($data); $c++)
+        {
+            $zeroexportarray = explode(",",$data[$c]->color);
+            if(in_array('Z1', $zeroexportarray))
+            {
+                $data[$c]->color = "#FF3F2E";
+            }else
+            {
+                $data[$c]->color = "#63E881";
+            }
+         
+        }
+        // Change color zone
         // Loop check
         $ArrRef = array_fill ( 0, sizeof($SerialNolist), 0 ); // อาร์เรย์อ้างอิงค์เพื่อเก็บตำแหน่งที่มีข้อมูลของ Serial
-        
+        // สร้าง Array ใหม่จำนวนสมาชิกเท่ากับ sizeof($SerialNolist) มีค่าเป็น 0 ทั้งหมด
         $StatusTranferresult = array();
         $result = array_pad ($SerialNoitem,sizeof($SerialNolist) , null);
 
@@ -696,21 +709,9 @@ foreach ($accum as $accums) {
             $data[$l]->y = $poweroutsum;
         }
         // return $poweroutarray;
-
+        
         return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 
-// Old version
-        // header("Content-type: text/json");
-        // $Daily = Input::get('date');
-        // $data = DB::table('sum_of_z50info')
-        // ->where('Site_ID','=',Auth::user()->Site_ID)
-        // ->whereDate('created_at' ,'=', Date($Daily))
-        // ->selectRaw('(UNIX_TIMESTAMP(created_at))*1000 AS x , Powerout_Total as y')
-        // ->orderBY('x')
-        // ->get();
-
-        // return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
-// Old version
     }
 
     public function z50getlivedata()
@@ -861,7 +862,7 @@ foreach ($accum as $accums) {
                 foreach ($result as $results) 
                 {
                     $date = new DateTime;
-                    $date->modify('-5 minutes');
+                    $date->modify('-25 minutes');
                     $formatted_date = $date->format('Y-m-d H:i:s');
 
                     if($results->created_at < $formatted_date )
@@ -935,7 +936,7 @@ foreach ($accum as $accums) {
                 foreach ($result as $results) 
                 {
                     $date = new DateTime;
-                    $date->modify('-5 minutes');
+                    $date->modify('-25 minutes');
                     $formatted_date = $date->format('Y-m-d H:i:s');
 
                     if($results->created_at < $formatted_date )
@@ -1187,7 +1188,7 @@ foreach ($accum as $accums) {
                 foreach ($result as $results) 
                 {
                     $date = new DateTime;
-                    $date->modify('-5 minutes');
+                    $date->modify('-25 minutes');
                     $formatted_date = $date->format('Y-m-d H:i:s');
 
                     if($results->created_at < $formatted_date )
@@ -1475,12 +1476,14 @@ foreach ($accum as $accums) {
     {
         header("Content-type: text/json");
         $serialnoz50 = Input::get('SerialNo');         
+        $Date = Input::get('date');         
         $data = DB::table('z50pcs_info')
         // ->where('Site_ID','=',Auth::user()->Site_ID)
         ->where('SerialNo','=',$serialnoz50) 
+        ->whereDate('created_at' ,'=', Date($Date))
         ->selectRaw('(UNIX_TIMESTAMP(created_at))*1000 AS x , RT_Powerout as y')
         ->orderBY('x','DESC')
-        ->LIMIT(1)
+        // ->LIMIT(1)
         ->get();
         return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
     }
@@ -1488,20 +1491,35 @@ foreach ($accum as $accums) {
     public function z50getlastdataDetail()
     {
         header("Content-type: text/json");
-        $serialnoz50 = Input::get('SerialNo');                 
+        $serialnoz50 = Input::get('SerialNo');  
+        $Date = Input::get('date');                 
         $data = DB::table('z50pcs_info')
         // ->where('Site_ID','=',Auth::user()->Site_ID)
         ->where('SerialNo','=',$serialnoz50) 
-        ->selectRaw('(UNIX_TIMESTAMP(created_at))*1000 AS x , RT_Powerout as y')
-        ->orderBY('x','DESC')
-        ->LIMIT(1)
+        ->whereDate('created_at' ,'=', Date($Date))
+        ->selectRaw('((UNIX_TIMESTAMP(created_at))*1000)+7 AS x , RT_Powerout as y , Zeroexport as color')
+        // ->orderBY('x','DESC')
         ->get();
-        foreach ($data as $datas) {
-            $x = $datas->x;
-            $y = $datas->y;
-        }
-        $ret = array($x, $y);
-        return Response::json($ret, 200, [], JSON_NUMERIC_CHECK);
+        // foreach ($data as $datas) {
+        //     $x = $datas->x;
+        //     $y = $datas->y;
+        // }
+        // $ret = array($x, $y);
+         // Change color zone
+         for($c = 0 ; $c < sizeof($data); $c++)
+         {
+            
+             if($data[$c]->color == "Z1")
+             {
+                 $data[$c]->color = "#FF3F2E";
+             }else
+             {
+                 $data[$c]->color = "#63E881";
+             }
+          
+         }
+         // Change color zone
+        return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
     }
 
     public function getInverrorDetail()
@@ -1761,7 +1779,7 @@ foreach ($accum as $accums) {
     }
 
     $date = new DateTime;
-        $date->modify('-5 minutes');
+        $date->modify('-25 minutes');
         $formatted_date = $date->format('Y-m-d H:i:s');
     if($TimeTranfer > $formatted_date )
         {

@@ -176,8 +176,11 @@
                            
                                 <div class="panel-heading ">
                                     <div class="panel-title-box ">
-                                    
-                                        <h3>Graph</h3>
+                                    <ul class="panel-controls ">
+                                            <li><span ><h3 >Daily Productivity</h3></span></li>
+                                            <li><input style="height:22px;margin-left:10px;" id="select1" type="date"></li>
+                                        </ul>
+                                        
                                     </div>
                                     <!--<ul class="panel-controls ">-->
                                     <!--<div class="form-group ">-->
@@ -325,18 +328,18 @@
                                     <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 155px;">                  
                                     <li class="xn">
                                        
-                                        <span class="fa fa-tachometer" style="color:#99ffcc;margin-top:5%;" ></span> <span class="xn-text" style="color:#fff">ERROR CODE</span><span id="##" class="pull-right badge badge-danger"></span>
+                                        <span class="fa fa-exclamation-triangle" style="color:#99ffcc;margin-top:5%;" ></span> <span class="xn-text" style="color:#fff">ERROR CODE</span><span id="##" class="pull-right badge badge-danger"></span>
                                         <br><p style="margin-left:40%" class="badge badge-danger" id="getInverror" >{{$DATAS->error_codes->Descript}}</p>
 
                                     </li>
                                     <li class="xn">
                                     @foreach($DATA2 as $DATA2S) 
-                                        <span class="fa fa-sun-o" style="color:#ff9900" ></span> <span class="xn-text"  style="color:#fff">SUPPRESSION</span><span id="##" class="pull-right badge badge-success"></span>
+                                        <span class="fa fa-shield" style="color:#ff9900" ></span> <span class="xn-text"  style="color:#fff">SUPPRESSION</span><span id="##" class="pull-right badge badge-success"></span>
                                         <br><p style="margin-left:40%" class="badge badge-danger"  id="getInvsuppression">{{$DATA2S->suppression_descripts->Descript}}</p>
                                     </li>
                                     @endforeach
                                     <li class="xn">
-                                        <span class="glyphicon glyphicon-cloud" style="color:#66ccff" ></span> <span class="xn-text"  style="color:#fff">RECOVERY TIME</span><span id="##" class="pull-right badge "></span>
+                                        <span class="fa fa-history" style="color:#66ccff" ></span> <span class="xn-text"  style="color:#fff">RECOVERY TIME</span><span id="##" class="pull-right badge "></span>
                                         <br><p style="margin-left:40%" class="badge badge-danger" id="getInvrecoverytime">{{$DATAS->Recoverytime}}</p>
                                     </li>
                                     </div>
@@ -516,7 +519,7 @@ $.getJSON('/z50getlastpowerchartDetail?SerialNo={{$serialnoz50}}', function(powe
     console.log(powerdata); 
     Highcharts.setOptions({                                           
         global : {
-            useUTC : true
+            useUTC : false
         },
         exporting: {
          enabled: false
@@ -815,111 +818,287 @@ if (chartSpeed) {
 });
 
  // Chart respon
- var url = "{{url('/z50getlivedataDetail?SerialNo=$serialnoz50')}}";
-                $(document).ready(function(){ //เปิด JS
-                $.get(url, function(data){ //รับค่าจาก response
-                seriesData = data;
-                // console.log("live: "+seriesData);
-            function requestData() 
-                {
-                $.ajax({
-                url: '/z50getlastdataDetail?SerialNo={{$serialnoz50}}',
-                success: function(point) {
-                    console.log("last: "+point);
-                var series = chart.series[0],
-                    shift = series.data.length > 60; 
+ var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
 
-                chart.series[0].addPoint(point, true, shift);
- 
-                setTimeout(requestData, 300000);    
-                        },
-                cache: false
-            });
-            }       
-                Highcharts.setOptions({
-                    
-                colors: ['#59f7bc'],
-                global: {
-                    useUTC: true
-                },
-                });
-                // Create the chart
-                var chart = Highcharts.stockChart('Realtime', {
+        var yyyy = today.getFullYear();
+        if(dd<10){
+            dd='0'+dd;
+            } 
+        if(mm<10){
+            mm='0'+mm;
+            } 
+        var Daily = yyyy+'-'+mm+'-'+dd;
+    // document.getElementById("daily").value = Daily;
 
-                    chart: {
-                        // width: 1080,
-                        type: 'spline',
-                        margin:[50, 0, 40, 10],
-                       
-                        backgroundColor:'transparent',
-                      
-                        animation: Highcharts.svg, // don't animate in old IE
-                        marginRight: 10,
-                        events: {
-                            load: requestData
-                        }
-                    },
-                    title: {
+console.log(Daily);
+var today = new Date();
+var ddT = today.getDate();
+var mmT = today.getMonth()+1; //January is 0!
+var yyyyT = today.getFullYear();
+
+if(ddT<10) {
+    ddT = '0'+ddT
+} 
+
+if(mmT<10) {
+    mmT = '0'+mmT
+} 
+today = yyyyT + '-' + mmT+ '-' + ddT  ;
+// ajax
+$.getJSON('/z50getlastdataDetail?SerialNo={{$serialnoz50}}&date='+today, function(data){
+console.log("last data"+data);
+
+//display all time label 
+var datestart = new Date(Daily);
+    datestart.setHours(05);
+    datestart.setMinutes(30);
+    datestart.setSeconds(0);
+var start = datestart;
+  console.log(start);
+var datestop = new Date(Daily);
+    datestop.setHours(18);
+    datestop.setMinutes(59);
+    datestop.setSeconds(00);
+var stop = datestop;
+  console.log(stop);
+
+Highcharts.setOptions({
+        colors: ['#44CC9B'],
+        global: {
+            useUTC: false,
+        },
+        });
+        var Dailydetailchart = new Highcharts.chart('Realtime', {
+chart: {
+zoomType: 'x',
+margin:[50, 0, 40, 10],
+backgroundColor:'transparent',
+// height:'330px',
+},
+title: {
+text: null
+},
+
+xAxis: {
+title: {
+    text: 'Hours'
+},
+type: 'datetime',
+ordinal: false,
+startOnTick: true,
+endOnTick: true,
+minPadding: 0,
+maxPadding: 0,
+tickInterval: 60 * 1000,
+/* minTickInterval: 60 * 1000 */
+},
+
+yAxis: {
+min:0, 
+title: {
+    text: null
+}
+},
+legend: {
+enabled: false
+},
+title: {
                         text: null
                     },
-
-                    rangeSelector: {
+credits: {
                         enabled: false
-                    },
-                    navigator:{
-                enabled: false
-            },
-            scrollbar :{
-                enabled: false
-            },
-                    subtitle: {
-                        text: null
                     },
                     exporting: {
                         enabled: false
                     },
-                    credits: {
+plotOptions: {
+    series: {
+            borderColor: 'transparent'
+        },
+    area: {
+    fillColor: {
+        linearGradient: {
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 1
+        },
+        stops: [
+            [0, Highcharts.getOptions().colors[0]],
+            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+        ]
+    },
+    marker: {
+        radius: 2
+    },
+    lineWidth: 1,
+    states: {
+        hover: {
+            lineWidth: 1
+        }
+    },
+    threshold: null
+}
+},
+
+series: [{
+type: 'area',
+name: 'Power',
+data: [{"x":start,"y":null},{"x":stop,"y":null}]
+},{
+type: 'column',
+name: 'Power',
+data: data
+}]
+});
+setInterval(function () {
+$.ajax(
+        {
+            url: '/z50getlastdataDetail?SerialNo={{$serialnoz50}}&date='+today,
+            type: 'GET',   
+        }).done( 
+            function(newdata) 
+                {
+                    Dailydetailchart.series[0].setData([{"x":start,"y":null},{"x":stop,"y":null}]);   
+                    Dailydetailchart.series[1].setData(newdata);   
+                 console.log("new last data "+newdata);
+                });
+}, 30000);  
+});
+
+$('#select1').on('change',function(e){
+    var Daily = e.target.value;
+
+// ajax
+// /z50getlastdataDetail?SerialNo={{$serialnoz50}}&date='+today
+$.getJSON('/z50getlastdataDetail?SerialNo={{$serialnoz50}}&date='+Daily, function(data){
+console.log("last data"+data);
+
+//display all time label 
+var datestart = new Date(Daily);
+    datestart.setHours(05);
+    datestart.setMinutes(30);
+    datestart.setSeconds(00);
+var start = datestart;
+  console.log(start);
+var datestop = new Date(Daily);
+    datestop.setHours(18);
+    datestop.setMinutes(59);
+    datestop.setSeconds(00);
+var stop = datestop;
+  console.log(stop);
+
+Highcharts.setOptions({
+        colors: ['#44CC9B'],
+        
+        global: {
+            useUTC: false,
+        },
+        });
+        var OnchangeDailydetailchart = new Highcharts.chart('Realtime', {
+chart: {
+zoomType: 'x',
+margin:[50, 0, 40, 10],
+backgroundColor:'transparent',
+// height:'330px',
+},
+title: {
+text: null
+},
+
+xAxis: {
+title: {
+    text: 'Hours'
+},
+type: 'datetime',
+ordinal: false,
+startOnTick: true,
+endOnTick: true,
+minPadding: 0,
+maxPadding: 0,
+tickInterval: 60 * 1000,
+/* minTickInterval: 60 * 1000 */
+},
+
+yAxis: {
+min:0, 
+title: {
+    text: null
+}
+},
+legend: {
+enabled: false
+},
+title: {
+                        text: null
+                    },
+credits: {
                         enabled: false
                     },
-                    series: [{
-                        name: 'Power',
-                        data: seriesData,
-                        type: 'spline',
-                    }],
+                    exporting: {
+                        enabled: false
+                    },
+plotOptions: {
+    series: {
+            borderColor: 'transparent'
+        },
+area: {
+    fillColor: {
+        linearGradient: {
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 1
+        },
+        stops: [
+            [0, Highcharts.getOptions().colors[0]],
+            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+        ]
+    },
+    marker: {
+        radius: 2
+    },
+    lineWidth: 1,
+    states: {
+        hover: {
+            lineWidth: 1
+        }
+    },
+    threshold: null
+}
+},
 
-                    responsive: {
-                        rules: [{
-                            condition: {
-                                // maxWidth: 500
-                            },
-                            chartOptions: {
-                                chart: {
-                                    // height: 300
-                                },
-                                subtitle: {
-                                    text: null
-                                },
-                                xAxis: {
-                                    type: 'datetime',
-                                    dateTimeLabelFormats: {
-                                      day: "%e. %b",
-                                      month: "%b '%y",
-                                      year: "%Y"
-                                    }
-                                  },
-                                navigator: {
-                                    enabled: false
-                                }
-                            }
-                        }]
-                    }
+series: [{
+type: 'area',
+name: 'Power',
+data: [{"x":start,"y":null},{"x":stop,"y":null}]
+},{
+type: 'column',
+name: 'Power',
+data: data
+}]
+});
+setInterval(function () {
+$.ajax(
+        {
+            url: '/z50getlastdataDetail?SerialNo={{$serialnoz50}}&date='+Daily,
+            type: 'GET',   
+        }).done( 
+            function(newdata) 
+                {
+                    OnchangeDailydetailchart.series[0].setData([{"x":start,"y":null},{"x":stop,"y":null}]);   
+                    OnchangeDailydetailchart.series[1].setData(newdata);   
+                 console.log("new last data "+newdata);
                 });
-
-    });
+}, 300000);  
+});
 });
 </script>
 <!-- Request new  data into text display -->
 <script>  
+
 //  Request new power data into text display 
      setInterval(function () {
             $.ajax(
@@ -1315,6 +1494,10 @@ geocoder.geocode( { 'address': address}, function(results, status)
 }); 
 }
 </script>
+
+
+
+
 
 
 

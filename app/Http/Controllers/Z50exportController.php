@@ -1850,7 +1850,7 @@ class Z50exportController extends Controller
            }
            else
            {
-               // $statusTA =  array();
+            //    $statusTA =  array();
            }
        }
        // ทำการดึง SerialNo ทีมีปัญหา

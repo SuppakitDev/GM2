@@ -497,10 +497,18 @@ $(document).ready(function() {
             }).done( 
                 function(SerialNoitem) 
                     {
+                      
                         // console.log(pvarray);
                         var container = document.getElementById("test");
                         SerialNoitem.forEach(function(serial,index) {
-                        
+                            serial = serial.toString();
+                            if(serial.length <= 9)
+                            {
+                                serial = '0'+serial;
+                            }
+                            
+                            console.log(serial);
+                            
                             container.innerHTML += "<li class='xn'><a href='Z50detail?SerialNo="+serial+"'><span id='Pcsstatus"+index+"' class='fa fa-bolt' style='color: #ffff00'></span> <span class='xn-text'>INV :"+serial+"</span><span class=''><span id='INV"+index+"'class='fa fa-circle text'></span><img id='Z1"+index+"'src='/img/Zeroexport3.png' height='33px' width='30px'  > </span></a></li>" 
                     });       
             });     

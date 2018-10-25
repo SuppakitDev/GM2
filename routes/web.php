@@ -258,4 +258,7 @@ Route::get('getMonthlydataZ50','Z50PeriodGraphController@getMonthlydataZ50');
 Route::get('getYearlydataZ50','Z50PeriodGraphController@getYearlydataZ50');
 
 
+Route::get('testserial','Z50Controller@testserial');
+
+
 

@@ -36,6 +36,7 @@ public function getMonthlydataZ50()
              $SerialNoitem = $SerialNoitems->SerialNoitem;  
          }
          $SerialNoitem = explode(",",$SerialNoitem); 
+        //  $SerialNoitem = explode(",","35SRI12418,35SRI12419,35SRI12420,35SRI12421,35SRI12422,0123456789"); 
 
         // All SerialNo list
         $SerialNolist = DB::table('sum_of_z50info')
@@ -48,6 +49,7 @@ public function getMonthlydataZ50()
              $SerialNolist = $SerialNolists->SerialNolist;  
          }
          $SerialNolist = explode(",",$SerialNolist); 
+        //  $SerialNolist = explode(",","35SRI12418,35SRI12419,35SRI12420,35SRI12421,35SRI12422,0123456789"); 
 
         $month = Input::get('Monthly');
         $year = Input::get('YY');

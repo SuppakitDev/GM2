@@ -8,8 +8,8 @@
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&callback=initialize"></script>
 
 <link rel="stylesheet" href="https://unpkg.com/animate.css@3.5.2/animate.css" type="text/css" />
- <link rel="stylesheet" href="https://unpkg.com/rmodal@1.0.28/dist/rmodal.css" type="text/css" />
- <script type="text/javascript" src="https://unpkg.com/rmodal@1.0.26/dist/rmodal.js"></script>
+ <!-- <link rel="stylesheet" href="https://unpkg.com/rmodal@1.0.28/dist/rmodal.css" type="text/css" />
+ <script type="text/javascript" src="https://unpkg.com/rmodal@1.0.26/dist/rmodal.js"></script> -->
  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
  <script>
 
@@ -1192,13 +1192,13 @@ console.log("last data"+data);
 
 //display all time label 
 var datestart = new Date(Daily);
-    datestart.setHours(0);
-    datestart.setMinutes(0);
+    datestart.setHours(05);
+    datestart.setMinutes(30);
     datestart.setSeconds(0);
 var start = datestart;
   console.log(start);
 var datestop = new Date(Daily);
-    datestop.setHours(23);
+    datestop.setHours(18);
     datestop.setMinutes(59);
     datestop.setSeconds(00);
 var stop = datestop;
@@ -1254,7 +1254,10 @@ credits: {
                         enabled: false
                     },
 plotOptions: {
-area: {
+    series: {
+            borderColor: 'transparent'
+        },
+    area: {
     fillColor: {
         linearGradient: {
             x1: 0,
@@ -1281,13 +1284,13 @@ area: {
 },
 
 series: [{
-type: 'area',
+type: 'column',
 name: 'Power',
 data: [{"x":start,"y":null},{"x":stop,"y":null}]
 },{
-type: 'area',
+type: 'column',
 name: 'Power',
-data: data
+data: data 
 }]
 });
 setInterval(function () {
@@ -1302,9 +1305,10 @@ $.ajax(
                     Dailydetailchart.series[1].setData(newdata);   
                  console.log("new last data "+newdata);
                 });
-}, 300000);  
+}, 30000);  
 });
 }
+
 
 </script>
 <!-- When change  -->
@@ -1319,13 +1323,13 @@ console.log("last data"+data);
 
 //display all time label 
 var datestart = new Date(Daily);
-    datestart.setHours(0);
-    datestart.setMinutes(0);
+    datestart.setHours(05);
+    datestart.setMinutes(30);
     datestart.setSeconds(0);
 var start = datestart;
   console.log(start);
 var datestop = new Date(Daily);
-    datestop.setHours(23);
+    datestop.setHours(18);
     datestop.setMinutes(59);
     datestop.setSeconds(00);
 var stop = datestop;
@@ -1382,6 +1386,9 @@ credits: {
                         enabled: false
                     },
 plotOptions: {
+    series: {
+            borderColor: 'transparent'
+        },
 area: {
     fillColor: {
         linearGradient: {
@@ -1409,11 +1416,11 @@ area: {
 },
 
 series: [{
-type: 'area',
+type: 'column',
 name: 'Power',
 data: [{"x":start,"y":null},{"x":stop,"y":null}]
 },{
-type: 'area',
+type: 'column',
 name: 'Power',
 data: data
 }]
