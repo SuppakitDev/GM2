@@ -52,10 +52,12 @@ public function getDailyDebug(){
         $Daily = Input::get('Daily');
         $data = DB::table('z50pcs_info')
         ->whereDate('created_at' ,'=', Date($Daily))
+        ->where('SerialNo' ,'=', 'X12345678X')
         ->selectRaw('(UNIX_TIMESTAMP(created_at))*1000 AS x ,RT_powerout as y')
         ->get();
     
         return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
+
         }
 
 public function getMonthlyDebug(){      

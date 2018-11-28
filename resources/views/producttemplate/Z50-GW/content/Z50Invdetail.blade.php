@@ -76,8 +76,7 @@
                             <div class="panel panel-default z50panel ">
                                 <div class="panel-heading ">
                                     <div class="panel-title-box ">
-                                         <h3>Total power generate</h3>
-                                        
+                                         <h3>Total power generate</h3> 
                                     </div>
                                     <ul class="panel-controls ">
                                         <li><a href="#" class="panel-fullscreen "><span class="fa fa-expand"></span></a></li>
@@ -180,7 +179,6 @@
                                             <li><span ><h3 >Daily Productivity</h3></span></li>
                                             <li><input style="height:22px;margin-left:10px;" id="select1" type="date"></li>
                                         </ul>
-                                        
                                     </div>
                                     <!--<ul class="panel-controls ">-->
                                     <!--<div class="form-group ">-->
@@ -193,14 +191,12 @@
                                     <!--</ul>-->
                                 </div>
                                 <div class="panel-body padding-0 z50panel">
-                                   
                                     <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 140px;">
                                     <div id="Realtime" style="height:100%;width:100%" ></div>
                                     </div>
                                 </div>
                             </div>
                             <!-- END VISITORS BLOCK -->
-                            
                         </div>
                         <div class="col-md-4">
                             
@@ -209,7 +205,6 @@
                                 <div class="panel-heading ">
                                     <div class="panel-title-box ">
                                         <h3>CO2 avoided</h3>
-                                        
                                     </div>
                                     <ul class="panel-controls ">
                                         <li><a href="#" class="panel-fullscreen "><span class="fa fa-expand"></span></a></li>
@@ -236,7 +231,6 @@
                                 </div>
                             </div>
                             <!-- END VISITORS BLOCK -->
-                            
                         </div>
                         <div class="col-md-5">
                             
@@ -361,9 +355,10 @@
       }
     </style>
 <!-- Modal -->
+@if(Auth::user()->Status == 'MANAGER')
 <script type="text/javascript">
         window.onload = function() {
-            var modal = new RModal(document.getElementById('myModal'), {
+            var modalCSV = new RModal(document.getElementById('myModal'), {
                 //content: 'Abracadabra'
                 beforeOpen: function(next) {
                     console.log('beforeOpen');
@@ -392,15 +387,15 @@
             });
 
             document.addEventListener('keydown', function(ev) {
-                modal.keydown(ev);
+                modalCSV.keydown(ev);
             }, false);
 
             document.getElementById('showModal').addEventListener("click", function(ev) {
                 ev.preventDefault();
-                modal.open();
+                modalCSV.open();
             }, false);
 
-            window.modal = modal;
+            window.modal = modalCSV;
         }
     </script>
 <div class="modal fade" id="myModal" role="dialog">
@@ -507,8 +502,10 @@
 				
 			  </div>
 			</div>
+           @endif 
 		  </div>
 		</div>
+    
 	               
 <script>
 // Current power chart
@@ -817,156 +814,7 @@ if (chartSpeed) {
 }, 300000);
 });
 
- // Chart respon
- var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
-
-        var yyyy = today.getFullYear();
-        if(dd<10){
-            dd='0'+dd;
-            } 
-        if(mm<10){
-            mm='0'+mm;
-            } 
-        var Daily = yyyy+'-'+mm+'-'+dd;
-    // document.getElementById("daily").value = Daily;
-
-console.log(Daily);
-var today = new Date();
-var ddT = today.getDate();
-var mmT = today.getMonth()+1; //January is 0!
-var yyyyT = today.getFullYear();
-
-if(ddT<10) {
-    ddT = '0'+ddT
-} 
-
-if(mmT<10) {
-    mmT = '0'+mmT
-} 
-today = yyyyT + '-' + mmT+ '-' + ddT  ;
-// ajax
-$.getJSON('/z50getlastdataDetail?SerialNo={{$serialnoz50}}&date='+today, function(data){
-console.log("last data"+data);
-
-//display all time label 
-var datestart = new Date(Daily);
-    datestart.setHours(05);
-    datestart.setMinutes(30);
-    datestart.setSeconds(0);
-var start = datestart;
-  console.log(start);
-var datestop = new Date(Daily);
-    datestop.setHours(18);
-    datestop.setMinutes(59);
-    datestop.setSeconds(00);
-var stop = datestop;
-  console.log(stop);
-
-Highcharts.setOptions({
-        colors: ['#44CC9B'],
-        global: {
-            useUTC: false,
-        },
-        });
-        var Dailydetailchart = new Highcharts.chart('Realtime', {
-chart: {
-zoomType: 'x',
-margin:[50, 0, 40, 10],
-backgroundColor:'transparent',
-// height:'330px',
-},
-title: {
-text: null
-},
-
-xAxis: {
-title: {
-    text: 'Hours'
-},
-type: 'datetime',
-ordinal: false,
-startOnTick: true,
-endOnTick: true,
-minPadding: 0,
-maxPadding: 0,
-tickInterval: 60 * 1000,
-/* minTickInterval: 60 * 1000 */
-},
-
-yAxis: {
-min:0, 
-title: {
-    text: null
-}
-},
-legend: {
-enabled: false
-},
-title: {
-                        text: null
-                    },
-credits: {
-                        enabled: false
-                    },
-                    exporting: {
-                        enabled: false
-                    },
-plotOptions: {
-    series: {
-            borderColor: 'transparent'
-        },
-    area: {
-    fillColor: {
-        linearGradient: {
-            x1: 0,
-            y1: 0,
-            x2: 0,
-            y2: 1
-        },
-        stops: [
-            [0, Highcharts.getOptions().colors[0]],
-            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-        ]
-    },
-    marker: {
-        radius: 2
-    },
-    lineWidth: 1,
-    states: {
-        hover: {
-            lineWidth: 1
-        }
-    },
-    threshold: null
-}
-},
-
-series: [{
-type: 'area',
-name: 'Power',
-data: [{"x":start,"y":null},{"x":stop,"y":null}]
-},{
-type: 'column',
-name: 'Power',
-data: data
-}]
-});
-setInterval(function () {
-$.ajax(
-        {
-            url: '/z50getlastdataDetail?SerialNo={{$serialnoz50}}&date='+today,
-            type: 'GET',   
-        }).done( 
-            function(newdata) 
-                {
-                    Dailydetailchart.series[0].setData([{"x":start,"y":null},{"x":stop,"y":null}]);   
-                    Dailydetailchart.series[1].setData(newdata);   
-                 console.log("new last data "+newdata);
-                });
-}, 30000);  
-});
+ 
 
 $('#select1').on('change',function(e){
     var Daily = e.target.value;
@@ -977,9 +825,10 @@ $.getJSON('/z50getlastdataDetail?SerialNo={{$serialnoz50}}&date='+Daily, functio
 console.log("last data"+data);
 
 //display all time label 
+//display all time label 
 var datestart = new Date(Daily);
-    datestart.setHours(05);
-    datestart.setMinutes(30);
+    datestart.setHours(12);
+    datestart.setMinutes(00);
     datestart.setSeconds(00);
 var start = datestart;
   console.log(start);
@@ -1023,7 +872,8 @@ tickInterval: 60 * 1000,
 },
 
 yAxis: {
-min:0, 
+// min:0, 
+
 title: {
     text: null
 }
@@ -1077,6 +927,7 @@ data: [{"x":start,"y":null},{"x":stop,"y":null}]
 },{
 type: 'column',
 name: 'Power',
+pointWidth: 2,
 data: data
 }]
 });
@@ -1494,6 +1345,8 @@ geocoder.geocode( { 'address': address}, function(results, status)
 }); 
 }
 </script>
+
+
 
 
 

@@ -63,6 +63,20 @@
                 <th>Power(kW)</th>
                 <th>Co2</th>
                 <th>Total Revenue</th>
+                <th>Statuspowerfactor</th>
+                <th>Input_Cstr1</th>
+                <th>Acvoltage_str1</th>
+                <th>Input_Vstr2</th>
+                <th>Input_Cstr2</th>
+                <th>Accurrent</th>
+                <th>Input_Vstr3</th>
+                <th>Input_Cstr3</th>
+                <th>Frequency</th>
+                <th>RT_powerfactor</th>
+                <th>Suppression</th>
+                <th>Recoverytime</th>
+                <th>Zero Export</th>
+                <th>Zero Export(Logic)</th>
             </tr>
         </thead>
     
@@ -79,7 +93,30 @@
             </td> 
             <td><?php
              echo number_format($jj->RT_poweraccum*$FIT , 2, '.', '');?>
-            </td>       
+            </td>
+            <td>{{$jj->Statuspowerfactor}}</td>
+            <td>{{$jj->Input_Cstr1}}</td>
+            <td>{{$jj->Acvoltage_str1}}</td>
+            <td>{{$jj->Input_Vstr2}}</td>
+            <td>{{$jj->Input_Cstr2}}</td>
+            <td>{{$jj->Accurrent}}</td>
+            <td>{{$jj->Input_Vstr3}}</td>
+            <td>{{$jj->Input_Cstr3}}</td>
+            <td>{{$jj->Frequency}}</td>  
+            <td>{{$jj->RT_powerfactor}}</td>  
+            <td>{{$jj->Suppression}}</td>  
+            <td>{{$jj->Recoverytime}}</td>        
+            <td>{{$jj->Zeroexport}}</td>        
+            @if(($jj->Zeroexport == "Z0") || ($jj->Zeroexport == "00") )
+            
+                <td>0</td>   
+            
+            @elseif($jj->Zeroexport == "Z1")
+            
+                <td>1</td> 
+            
+            @endif
+                        
         </tr>
     @endforeach
     </tbody>

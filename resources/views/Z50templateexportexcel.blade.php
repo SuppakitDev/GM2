@@ -65,6 +65,8 @@
                 <th>Poweraccum Total</th>
                 <th>Co2</th>
                 <th>Total Revenue</th>
+                <th>Zero Export</th>
+                <th>Zero Export(Logic)</th>
             </tr>
         </thead>
     
@@ -79,7 +81,18 @@
             </td> 
             <td><?php
              echo number_format($jj->RT_poweraccum*$FIT , 2, '.', '');?>
-            </td>        
+            </td> 
+            <td>{{$jj->Zeroexport}}</td>        
+            @if(($jj->Zeroexport == "Z0") || ($jj->Zeroexport == "00") )
+            
+                <td>0</td>   
+            
+            @elseif($jj->Zeroexport == "Z1")
+            
+                <td>1</td> 
+            
+            @endif
+                   
         </tr>
     @endforeach
     </tbody>

@@ -54,7 +54,8 @@ class Z50exportController extends Controller
                 $info = z50pcs_info::with('error_codes')
                 ->whereDate('created_at' ,'=', Date($Daily))
                 ->where('SerialNo','=',$serialnoz50)
-                ->select('created_at' ,'Pcs_status' ,'Errorcode' ,'RT_poweraccum' ,'RT_powerout')
+                ->select('created_at' ,'Pcs_status' ,'Reg_mode','Insp_test','Errorcode','RT_powerout','RT_poweraccum','Statuspowerfactor','Statuspowerfactor','Input_Cstr1','Acvoltage_str1'
+                ,'Input_Vstr2','Input_Cstr2','Accurrent','Input_Vstr3','Input_Cstr3','Frequency','RT_powerfactor','Suppression','Recoverytime' ,'RT_powerout','Zeroexport')
                 ->get();
 
                 $sheet->mergeCells('A1:G1');
@@ -240,7 +241,7 @@ class Z50exportController extends Controller
                 ->whereMonth('created_at' ,'=', $Month)
                 ->whereYear('created_at' ,'=', $Year)
                 ->where('SerialNo','=',$serialnoz50)
-                ->select('created_at' ,'Pcs_status' ,'Errorcode' ,'RT_poweraccum' ,'RT_powerout')
+                ->select('created_at' ,'Pcs_status' ,'Errorcode' ,'RT_poweraccum' ,'RT_powerout','Zeroexport')
                 ->get();
 
                 $sheet->mergeCells('A1:G1');
@@ -428,7 +429,7 @@ class Z50exportController extends Controller
                 
                 ->whereYear('created_at' ,'=', $Year)
                 ->where('SerialNo','=',$serialnoz50)
-                ->select('created_at' ,'Pcs_status' ,'Errorcode' ,'RT_poweraccum' ,'RT_powerout')
+                ->select('created_at' ,'Pcs_status' ,'Errorcode' ,'RT_poweraccum' ,'RT_powerout','Zeroexport')
                 ->get();
 
                 $sheet->mergeCells('A1:G1');
@@ -633,7 +634,7 @@ class Z50exportController extends Controller
                 $info = DB::table('sum_of_z50info')
                 ->whereDate('created_at' ,'=', Date($Daily))
                 ->where('Site_ID','=',Auth::user()->Site_ID)  //ของเก่าใช้ Site_ID ในการหรองข้อมูล จากตาราง Sum_of_z50
-                ->select('created_at','RT_powerout' ,'RT_poweraccum')
+                ->select('created_at','RT_powerout' ,'RT_poweraccum','Zeroexport')
                 ->get();
 
                 // แทรกส่วนการวนลูปเช็คตำแหน่งของ Item เพื่อเลือกคำนวณ
@@ -896,7 +897,7 @@ class Z50exportController extends Controller
                 ->whereMonth('created_at' ,'=', $ZMonth)
                 ->whereYear('created_at' ,'=', $ZYear)
                 ->where('Site_ID','=',Auth::user()->Site_ID)
-                ->select('created_at','RT_powerout' ,'RT_poweraccum')
+                ->select('created_at','RT_powerout' ,'RT_poweraccum','Zeroexport','Zeroexport')
                 ->get();
 
                 // แทรกส่วนการวนลูปเช็คตำแหน่งของ Item เพื่อเลือกคำนวณ
@@ -1156,7 +1157,7 @@ class Z50exportController extends Controller
               
                 ->whereYear('created_at' ,'=', $ZYear)
                 ->where('Site_ID','=',Auth::user()->Site_ID)
-                ->select('created_at','RT_powerout' ,'RT_poweraccum')
+                ->select('created_at','RT_powerout' ,'RT_poweraccum','Zeroexport')
                 ->get();
 
                  // แทรกส่วนการวนลูปเช็คตำแหน่งของ Item เพื่อเลือกคำนวณ

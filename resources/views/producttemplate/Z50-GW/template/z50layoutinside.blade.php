@@ -552,6 +552,142 @@ setInterval(function ()
 <script>
 $(document).ready(function() {
 
+    // /z50getlastdataDetail?SerialNo={{$serialnoz50}}&date='+today
+var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+
+        var yyyy = today.getFullYear();
+        if(dd<10){
+            dd='0'+dd;
+            } 
+        if(mm<10){
+            mm='0'+mm;
+            } 
+        var Daily = yyyy+'-'+mm+'-'+dd;
+$.getJSON('/z50getlastdataDetail?SerialNo={{$serialnoz50}}&date='+Daily, function(data){
+console.log("last data now"+data);
+
+//display all time label 
+var datestart = new Date(today);
+    datestart.setHours(05);
+    datestart.setMinutes(30);
+    datestart.setSeconds(00);
+var start = datestart;
+  console.log(start);
+var datestop = new Date(today);
+    datestop.setHours(18);
+    datestop.setMinutes(59);
+    datestop.setSeconds(00);
+var stop = datestop;
+  console.log(stop);
+
+Highcharts.setOptions({
+        colors: ['#44CC9B'],
+        
+        global: {
+            useUTC: false,
+        },
+        });
+        var OnchangeDailydetailchart = new Highcharts.chart('Realtime', {
+chart: {
+zoomType: 'x',
+margin:[50, 0, 40, 10],
+backgroundColor:'transparent',
+// height:'330px',
+},
+title: {
+text: null
+},
+
+xAxis: {
+title: {
+    text: 'Hours'
+},
+type: 'datetime',
+ordinal: false,
+startOnTick: true,
+endOnTick: true,
+minPadding: 0,
+maxPadding: 0,
+tickInterval: 60 * 1000,
+/* minTickInterval: 60 * 1000 */
+},
+
+yAxis: {
+min:0, 
+title: {
+    text: null
+}
+},
+legend: {
+enabled: false
+},
+title: {
+                        text: null
+                    },
+credits: {
+                        enabled: false
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+plotOptions: {
+    series: {
+            borderColor: 'transparent'
+        },
+area: {
+    fillColor: {
+        linearGradient: {
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 1
+        },
+        stops: [
+            [0, Highcharts.getOptions().colors[0]],
+            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+        ]
+    },
+    marker: {
+        radius: 2
+    },
+    lineWidth: 1,
+    states: {
+        hover: {
+            lineWidth: 1
+        }
+    },
+    threshold: null
+}
+},
+
+series: [{
+type: 'area',
+name: 'Power',
+data: [{"x":start,"y":null},{"x":stop,"y":null}]
+},{
+type: 'column',
+name: 'Power',
+data: data
+}]
+});
+setInterval(function () {
+$.ajax(
+        {
+            url: '/z50getlastdataDetail?SerialNo={{$serialnoz50}}&date='+Daily,
+            type: 'GET',   
+        }).done( 
+            function(newdata) 
+                {
+                    OnchangeDailydetailchart.series[0].setData([{"x":start,"y":null},{"x":stop,"y":null}]);   
+                    OnchangeDailydetailchart.series[1].setData(newdata);   
+                 console.log("new last data "+newdata);
+                });
+}, 10000);  
+
+                });
+
     $.ajax(
             {
                 url: "/z50getlastdatalayoutdetail?SerialNo={{$serialnoz50}}",
@@ -731,8 +867,7 @@ $(document).ready(function() {
                        
             });     
 
-    
 
 
-
+// ajax
 </script>

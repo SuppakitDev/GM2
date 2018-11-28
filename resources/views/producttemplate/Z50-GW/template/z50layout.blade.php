@@ -509,7 +509,7 @@ $(document).ready(function() {
                             
                             console.log(serial);
                             
-                            container.innerHTML += "<li class='xn'><a href='Z50detail?SerialNo="+serial+"'><span id='Pcsstatus"+index+"' class='fa fa-bolt' style='color: #ffff00'></span> <span class='xn-text'>INV :"+serial+"</span><span class=''><span id='INV"+index+"'class='fa fa-circle text'></span><img id='Z1"+index+"'src='/img/Zeroexport3.png' height='33px' width='30px'  > </span></a></li>" 
+                            container.innerHTML += "<li class='xn'><a href='Z50detail?SerialNo="+serial+"'><span id='Pcsstatus"+index+"' class='fa fa-bolt' style='color: #ffff00'></span> <span class='xn-text'>INV :"+serial+"</span><span class=''><span id='INV"+index+"'class='fa fa-circle text'></span><img id='Z1"+index+"'src='/img/Zeroexport3.png' height='33px' width='25px'  > </span></a></li>" 
                     });       
             });     
     

@@ -348,7 +348,7 @@ geocoder.geocode( { 'address': address}, function(results, status)
 
                                     </div>
                                     <ul class="panel-controls ">
-                                        <li><button class="action-button shadow animate blue  "id="button1"  onclick="myFunction1()" >Daily</button></li>
+                                    <li><button class="action-button shadow animate blue  "id="button1"  onclick="myFunction1()" >Daily</button></li>
                                         <li><button class="action-button shadow animate red" id="button2" onclick="myFunction2()" >Monthly</button></li>
                                         <li><button class="action-button shadow animate green" id="button2" onclick="myFunction3()" >Yearly</button></li>                                   
                                     </ul>
@@ -1194,7 +1194,7 @@ console.log("last data"+data);
 var datestart = new Date(Daily);
     datestart.setHours(05);
     datestart.setMinutes(30);
-    datestart.setSeconds(0);
+    datestart.setSeconds(00);
 var start = datestart;
   console.log(start);
 var datestop = new Date(Daily);
@@ -1290,7 +1290,7 @@ data: [{"x":start,"y":null},{"x":stop,"y":null}]
 },{
 type: 'column',
 name: 'Power',
-data: data 
+data: data
 }]
 });
 setInterval(function () {
@@ -1376,15 +1376,18 @@ title: {
 legend: {
 enabled: false
 },
-title: {
-                        text: null
-                    },
-credits: {
-                        enabled: false
-                    },
-                    exporting: {
-                        enabled: false
-                    },
+title: 
+    {
+    text: null
+    },
+credits: 
+    {
+    enabled: false
+    },
+exporting: 
+    {
+    enabled: false
+    },
 plotOptions: {
     series: {
             borderColor: 'transparent'

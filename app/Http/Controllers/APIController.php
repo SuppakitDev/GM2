@@ -101,13 +101,13 @@ for($i = 0 ; $i < $COUNT ; $i++)
                 ->get();
                 foreach ($Siteid as $Siteids) 
                         {
-                        $Site_ID = $Siteids->Site_ID;
+                        $Site_IDSUPPA = $Siteids->Site_ID;
                         }
                         // return($Site_ID);
 
 // ส่วนของการบันทึกข้อมูลลงในตาราง Z50info
         $api                    = new z50pcs_info();
-        $api->Site_ID           = $Site_ID;
+        $api->Site_ID           = $Site_IDSUPPA;
         $api->Comm_v            = $Comm_v;
         $api->Model_t           = $Model_t;
         $api->SerialNo          = $SerialNo;
@@ -181,7 +181,7 @@ for($i = 0 ; $i < $COUNT ; $i++)
     // ดึงข้อมูลชุดสุดท้ายออกมา
     // $z50user = User::find(Auth::user()->id);
     $serialnolist = DB::table('z50_site')
-                    ->where('Site_ID', '=', $Site_ID)
+                    ->where('Site_ID', '=', $Site_IDSUPPA)
                     ->select('SerialNolist')
                     ->get();
     foreach ($serialnolist as $serialnolists) 
@@ -251,7 +251,7 @@ for($i = 0 ; $i < $COUNT ; $i++)
         }
         // ส่วนของการจัดการ Line status ก่อนบันทึก
         $Linestatus = DB::table('sum_of_z50info')
-        ->where('Site_ID','=', $Site_ID)
+        ->where('Site_ID','=', $Site_IDSUPPA)
         ->select('Linestatus','Tranfer_status')
         ->latest()
         ->LIMIT(1)
@@ -287,7 +287,7 @@ for($i = 0 ; $i < $COUNT ; $i++)
 
         $total = new sum_of_z50info();
         
-        $total->Site_ID           = $Site_ID;
+        $total->Site_ID           = $Site_IDSUPPA;
         $total->Powerout_Total            = $RT_poweroutTotal ;
         $total->Poweraccum_Total           = $RT_poweraccumTotal;
         $total->Tranfer_status          = implode(",",$Tranfer_statusArray); 
