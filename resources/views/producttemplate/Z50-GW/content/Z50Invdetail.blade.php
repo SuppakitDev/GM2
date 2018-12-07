@@ -58,7 +58,7 @@
                                     </ul>
                                 </div>
                                 <div class="panel-body padding-0 z50panel">
-                                    <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 110px;">
+                                    <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 90px;">
                                         <!-- Content -->
                                         <h3 class="Textvalues" ><span style="font-size:240%;" id="Power" >{{$DATAS->RT_powerout}}</span> kW</h3>
                                         <div id="Currentpower" style="height: 95%; width: 100%;"></div>
@@ -91,7 +91,7 @@
                                     </ul>
                                 </div>
                                 <div class="panel-body padding-0 z50panel">
-                                <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 110px;">
+                                <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 90px;">
                                       <!-- Content -->
                                       <h3 class="Textvalues" ><span style="font-size:240%;" id="Poweraccum" >{{$DATAS->RT_poweraccum}}</span> kWh</h3>
                                         <div id="CurrentConsumption" style="height: 98%; width: 100%;"></div>
@@ -123,7 +123,7 @@
                                     </ul>
                                 </div>
                                 <div class="panel-body padding-0 z50panel">
-                                    <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 110px;">
+                                    <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 90px;">
                                     <?php 
                                         $MONEY = $DATAS->RT_poweraccum*$FIT;
                                     ?>
@@ -157,7 +157,7 @@
                                     </ul>
                                 </div>
                                 <div class="panel-body padding-0 z50panel">
-                                    <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 140px;">
+                                    <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 160px;">
                                        <!-- Content -->
                                        <!-- <h3 class="Textvalues" ><span style="font-size:240%;" >2561</span> kWh</h3> -->
                                         <div id="TodayEnergy" style="height: 110%; width: 100%;"></div>
@@ -191,7 +191,7 @@
                                     <!--</ul>-->
                                 </div>
                                 <div class="panel-body padding-0 z50panel">
-                                    <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 140px;">
+                                    <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 160px;">
                                     <div id="Realtime" style="height:100%;width:100%" ></div>
                                     </div>
                                 </div>
@@ -858,10 +858,12 @@ text: null
 },
 
 xAxis: {
+    
 title: {
     text: 'Hours'
 },
 type: 'datetime',
+
 ordinal: false,
 startOnTick: true,
 endOnTick: true,
@@ -869,10 +871,16 @@ minPadding: 0,
 maxPadding: 0,
 tickInterval: 60 * 1000,
 /* minTickInterval: 60 * 1000 */
+labels: {
+            style: {
+                color: '#fff'
+            }
+        }
 },
 
 yAxis: {
-// min:0, 
+    min: 0,
+    max: 5.5, 
 
 title: {
     text: null

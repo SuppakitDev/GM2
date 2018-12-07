@@ -259,6 +259,8 @@ Route::get('getYearlydataZ50','Z50PeriodGraphController@getYearlydataZ50');
 
 
 Route::get('testserial','Z50Controller@testserial');
+Route::get('TESTZONE','Z50Controller@TESTZONE');
+Route::get('TestPreparetime','Z50Controller@TestPreparetime');
 
 
 

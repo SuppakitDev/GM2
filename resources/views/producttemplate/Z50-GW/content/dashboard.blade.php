@@ -215,7 +215,7 @@ geocoder.geocode( { 'address': address}, function(results, status)
                                     </ul>
                                 </div>
                                 <div class="panel-body padding-0 z50panel">
-                                    <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 110px;">
+                                    <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 90px;">
                                         <!-- Content -->
                                         <h3 class="Textvalues" ><span style="font-size:240%;" id="Power" >{{"..."}}</span> kW</h3>
 
@@ -250,7 +250,7 @@ geocoder.geocode( { 'address': address}, function(results, status)
                                     </ul>
                                 </div>
                                 <div class="panel-body padding-0 z50panel">
-                                <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 110px;">
+                                <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 90px;">
                                       <!-- Content -->
                                       <h3 class="Textvalues" ><span style="font-size:240%;" id="Poweraccum" >{{"..."}}</span> kWh</h3>
                                         <div id="CurrentConsumption" style="height: 98%; width: 100%;"></div>
@@ -282,7 +282,7 @@ geocoder.geocode( { 'address': address}, function(results, status)
                                     </ul>
                                 </div>
                                 <div class="panel-body padding-0 z50panel">
-                                    <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 110px;">
+                                    <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 90px;">
                                     <?php 
                                         $MONEY = $accum*$FIT;
                                     ?>
@@ -316,7 +316,7 @@ geocoder.geocode( { 'address': address}, function(results, status)
                                     </ul>
                                 </div>
                                 <div class="panel-body padding-0 z50panel">
-                                    <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 140px;">
+                                    <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 160px;">
                                        <!-- Content -->
                                        <!-- <h3 class="Textvalues" ><span style="font-size:240%;" >2561</span> kWh</h3> -->
                                         <div id="TodayEnergy" style="height: 110%; width: 100%;"></div>
@@ -356,7 +356,7 @@ geocoder.geocode( { 'address': address}, function(results, status)
                                 </div>
                                 <div class="panel-body padding-0 z50panel">
                                    
-                                    <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 140px;">
+                                    <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 160px;">
                                     <div id="containerrealtimeDaily" style="height:100%;width:100%" ></div>
                                     <div id="containerrealtimeMonthly" style="height:100%;width:100%" ></div>
                                     <div id="containerrealtimeYearly" style="height:100%;width:100%" ></div>
@@ -388,7 +388,7 @@ geocoder.geocode( { 'address': address}, function(results, status)
                                     </ul>
                                 </div>
                                 <div class="panel-body padding-0 z50panel">
-                                    <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 120px;">
+                                    <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 110px;">
                                     <!-- content -->
                                     <?php 
                                         $CO2 = $accum*$Co2_Criterion;
@@ -425,7 +425,7 @@ geocoder.geocode( { 'address': address}, function(results, status)
                                     
                                 </div>
                                 <div class="panel-body padding-0 z50panel">
-                                    <div class="chart-holder z50panel"  style="height: 120px;">
+                                    <div class="chart-holder z50panel"  style="height: 110px;">
                                     <!-- content -->
                                     <div id="container-donut" style="height: 95%"></div>
                                     <!-- content -->
@@ -458,7 +458,7 @@ geocoder.geocode( { 'address': address}, function(results, status)
                                 </div>
 
                                 <div class="panel-body padding-0 z50panel">
-                                    <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 120px;">
+                                    <div class="chart-holder z50panel" id="dashboard-donut-1" style="height: 110px;">
                                     <div class="mapouter"><div class="gmap_canvas"><iframe width="100%" height="100%" id="gmap_canvas" src="https://maps.google.com/maps?q=<?php echo $Z50siteAddress ?>&t=k&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe></div><a href="https://www.crocothemes.net"></a><style>.mapouter{overflow:hidden;height:100%;width:100%;}.gmap_canvas {background:none!important;height:100%;width:100%;}</style></div>
                                     </div>
                                 </div>
@@ -1233,10 +1233,16 @@ minPadding: 0,
 maxPadding: 0,
 tickInterval: 60 * 1000,
 /* minTickInterval: 60 * 1000 */
+labels: {
+            style: {
+                color: '#fff'
+            }
+        }
 },
 
 yAxis: {
-min:0, 
+    min: 0,
+    max: 5.5,
 title: {
     text: null
 }
@@ -1365,10 +1371,16 @@ minPadding: 0,
 maxPadding: 0,
 tickInterval: 60 * 1000,
 /* minTickInterval: 60 * 1000 */
+labels: {
+            style: {
+                color: '#fff'
+            }
+        }
 },
 
 yAxis: {
-min:0, 
+    min: 0,
+    max: 5.5,
 title: {
     text: null
 }
@@ -1490,8 +1502,12 @@ $.ajax(
                         minPadding: 0,
                         maxPadding: 0,
                         // tickInterval:  24*3600*1000,
-                        categories: ['1', '2', '3', '4', '5', '6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
-                        
+                        categories: ['1', '2', '3', '4', '5', '6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31'],
+                        labels: {
+            style: {
+                color: '#fff'
+            }
+        }
                     },
                 
                     yAxis: {
@@ -1605,7 +1621,12 @@ $.ajax(
                         maxPadding: 0,
                         // tickInterval:  24*3600*1000,
                         categories: ['1', '2', '3', '4', '5', '6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
-                        
+                        ,
+                        labels: {
+            style: {
+                color: '#fff'
+            }
+        }
                     },
                 
                     yAxis: {
@@ -1708,7 +1729,12 @@ $.getJSON('/getYearlydataZ50?Yearly='+Yearly, function(data){
             minPadding: 0,
             maxPadding: 0,
             // tickInterval: 31 * 24 * 3600 * 1000,
-            categories : ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+            categories : ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+            labels: {
+            style: {
+                color: '#fff'
+            }
+        }
         },
     
         yAxis: {
@@ -1824,7 +1850,12 @@ $.getJSON('/getYearlydataZ50?Yearly='+Yearly, function(data){
             minPadding: 0,
             maxPadding: 0,
             // tickInterval: 31 * 24 * 3600 * 1000,
-            categories : ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+            categories : ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+            labels: {
+            style: {
+                color: '#fff'
+            }
+        }
         },
     
         yAxis: {

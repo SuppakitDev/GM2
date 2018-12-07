@@ -6,6 +6,7 @@ use Auth;
 use Excel;
 use PHPExcel_Style_Alignment;
 use DB;
+use DateTime;
 use PHPExcel_Style_Border;
 use PHPExcel_Chart_PlotArea;
 use PHPExcel_Worksheet_Drawing;
@@ -50,6 +51,8 @@ class Z50exportController extends Controller
                 $ZS0Site = DB::table('z50_site')
                 ->where('Site_ID', '=', Auth::user()->Site_ID)
                 ->get();
+
+               
                 $Daily = Input::get('Day');
                 $info = z50pcs_info::with('error_codes')
                 ->whereDate('created_at' ,'=', Date($Daily))
@@ -58,6 +61,189 @@ class Z50exportController extends Controller
                 ,'Input_Vstr2','Input_Cstr2','Accurrent','Input_Vstr3','Input_Cstr3','Frequency','RT_powerfactor','Suppression','Recoverytime' ,'RT_powerout','Zeroexport')
                 ->get();
 
+
+                $GetMinDate = DB::table('z50pcs_info')
+                ->whereDate('created_at' ,'=', Date($Daily))
+                ->where('SerialNo','=',$serialnoz50)
+                ->Select(DB::raw('Min(created_at) as Mindate'))
+                ->get();
+                    foreach($GetMinDate as $GetMinDates )
+                    {
+                        $GetMinDate = $GetMinDates->Mindate;
+                    }
+
+                // Start Test Area
+
+                foreach($info as $jj)
+                {
+                                if($GetMinDate == $jj->created_at) 
+                                    {
+                                        $Dateinthisloop = strtotime($jj->created_at);
+                                                $created_atARR[]   =   date('Y-m-d H:i:00', $Dateinthisloop); 
+                                                $Pcs_statusARR[]    =   $jj->Pcs_status;
+                                                $errorARR[]         =   $jj->error_codes->Descript;
+                                                $RT_poweraccumARR[]  = $jj->RT_poweraccum;
+                                                $RT_poweroutARR[]   =     $jj->RT_powerout;
+                                            
+                                                $Co2ARR[]    =  number_format($jj->RT_poweraccum*$Co2 , 2, '.', '');
+                                                
+                                                $RevenueARR[]    =  number_format($jj->RT_poweraccum*$FIT , 2, '.', '');
+                                                
+                                                $StatuspowerfactorARR[]   = $jj->Statuspowerfactor;
+                                                $Input_Cstr1ARR[]  = $jj->Input_Cstr1;
+                                                $Acvoltage_str1ARR[]  = $jj->Acvoltage_str1;
+                                                $Input_Vstr2ARR[]  = $jj->Input_Vstr2;
+                                                $Input_Cstr2ARR[]  = $jj->Input_Cstr2;
+                                                $AccurrentARR[] = $jj->Accurrent;
+                                                $Input_Vstr3ARR[] = $jj->Input_Vstr3;
+                                                $Input_Cstr3ARR[] = $jj->Input_Cstr3;
+                                                $FrequencyARR[] = $jj->Frequency;
+                                                $RT_powerfactorARR[] = $jj->RT_powerfactor; 
+                                                $SuppressionARR[] = $jj->Suppression;  
+                                                $RecoverytimeARR[] = $jj->Recoverytime;        
+                                                $ZeroexportARR[] = $jj->Zeroexport;        
+                                                if(($jj->Zeroexport == "Z0") || ($jj->Zeroexport == "00") )
+                                                    {
+                                                        $ZeroexportlogicARR[] = 0;
+                                                    }
+                                                elseif($jj->Zeroexport == "Z1")
+                                                    {
+                                                        $ZeroexportlogicARR[] = 1;
+                                                    }  
+                                                               
+                                            $CSVEXPORT[] = array( $created_atARR, $Pcs_statusARR,$errorARR,$RT_poweraccumARR,$RT_poweroutARR,$Co2ARR,$RevenueARR,$StatuspowerfactorARR,
+                                            $Input_Cstr1ARR,$Acvoltage_str1ARR,$Input_Vstr2ARR,$Input_Cstr2ARR,$AccurrentARR,$Input_Vstr3ARR,$Input_Cstr3ARR,$FrequencyARR,
+                                            $RT_powerfactorARR,$SuppressionARR,$RecoverytimeARR,$ZeroexportARR,$ZeroexportlogicARR);
+                                            
+                                             
+                                            $TimeStartInterval = new DateTime($jj->created_at);
+                                            $TimeStartInterval->modify('+5 minutes');
+          
+                                    }
+                                    
+                                elseif($TimeStartInterval >=  $jj->created_at )
+                                    {   
+                                        $Dateinthisloopsecond = strtotime($jj->created_at);
+                                        $created_atARR[]   =   date('Y-m-d H:i:00', $Dateinthisloopsecond); 
+                                        $Pcs_statusARR[]    =   $jj->Pcs_status;
+                                        $errorARR[]         =   $jj->error_codes->Descript;
+                                        $RT_poweraccumARR[]  = $jj->RT_poweraccum;
+                                        $RT_poweroutARR[]   =     $jj->RT_powerout;
+                                    
+                                        $Co2ARR[]    =  number_format($jj->RT_poweraccum*$Co2 , 2, '.', '');
+                                        
+                                        $RevenueARR[]    =  number_format($jj->RT_poweraccum*$FIT , 2, '.', '');
+                                        
+                                        $StatuspowerfactorARR[]   = $jj->Statuspowerfactor;
+                                        $Input_Cstr1ARR[]  = $jj->Input_Cstr1;
+                                        $Acvoltage_str1ARR[]  = $jj->Acvoltage_str1;
+                                        $Input_Vstr2ARR[]  = $jj->Input_Vstr2;
+                                        $Input_Cstr2ARR[]  = $jj->Input_Cstr2;
+                                        $AccurrentARR[] = $jj->Accurrent;
+                                        $Input_Vstr3ARR[] = $jj->Input_Vstr3;
+                                        $Input_Cstr3ARR[] = $jj->Input_Cstr3;
+                                        $FrequencyARR[] = $jj->Frequency;
+                                        $RT_powerfactorARR[] = $jj->RT_powerfactor; 
+                                        $SuppressionARR[] = $jj->Suppression;  
+                                        $RecoverytimeARR[] = $jj->Recoverytime;        
+                                        $ZeroexportARR[] = $jj->Zeroexport;        
+                                        if(($jj->Zeroexport == "Z0") || ($jj->Zeroexport == "00") )
+                                            {
+                                                $ZeroexportlogicARR[] = 0;
+                                            }
+                                        elseif($jj->Zeroexport == "Z1")
+                                            {
+                                                $ZeroexportlogicARR[] = 1;
+                                            }  
+                                              
+                                            $CSVEXPORT[] = array( $created_atARR, $Pcs_statusARR,$errorARR,$RT_poweraccumARR,$RT_poweroutARR,$Co2ARR,$RevenueARR,$StatuspowerfactorARR,
+                                            $Input_Cstr1ARR,$Acvoltage_str1ARR,$Input_Vstr2ARR,$Input_Cstr2ARR,$AccurrentARR,$Input_Vstr3ARR,$Input_Cstr3ARR,$FrequencyARR,
+                                            $RT_powerfactorARR,$SuppressionARR,$RecoverytimeARR,$ZeroexportARR,$ZeroexportlogicARR);  
+                                            
+                                            $TimeStartInterval = new DateTime($jj->created_at);
+                                            $TimeStartInterval->modify('+5 minutes');
+
+                                       }     
+                                    else{
+                                                        $startdate=strtotime("+5 minutes".$TEMPDATE);
+                                                        $stopdate=strtotime($jj->created_at);
+                                                    do {
+                                                           
+                                                                    if(($startdate  <  $stopdate ))
+                                                                                {   
+                                                                                    $created_atARR[]   =   date('Y-m-d H:i:00', $startdate);
+                                                                                    $Pcs_statusARR[]    =   0;
+                                                                                    $errorARR[]         =  0; 
+                                                                                    $RT_poweraccumARR[]  = 0;
+                                                                                    $RT_poweroutARR[]   =     0;
+                                                                                    $Co2ARR[]    =  0;
+                                                                                    $RevenueARR[]    =  0;
+                                                                                    $StatuspowerfactorARR[]   = 0;
+                                                                                    $Input_Cstr1ARR[]  = 0;
+                                                                                    $Acvoltage_str1ARR[]  = 0;
+                                                                                    $Input_Vstr2ARR[]  = 0;
+                                                                                    $Input_Cstr2ARR[]  = 0;
+                                                                                    $AccurrentARR[] = 0;
+                                                                                    $Input_Vstr3ARR[] = 0;
+                                                                                    $Input_Cstr3ARR[] = 0;
+                                                                                    $FrequencyARR[] = 0;
+                                                                                    $RT_powerfactorARR[] = 0; 
+                                                                                    $SuppressionARR[] = 0;  
+                                                                                    $RecoverytimeARR[] = 0;      
+                                                                                    $ZeroexportARR[] = 0;       
+                                                                                    $ZeroexportlogicARR[] = 0;
+
+
+                                                                                    $CSVEXPORT[] = array( $created_atARR, $Pcs_statusARR,$errorARR,$RT_poweraccumARR,$RT_poweroutARR,$Co2ARR,$RevenueARR,$StatuspowerfactorARR,
+                                                                                    $Input_Cstr1ARR,$Acvoltage_str1ARR,$Input_Vstr2ARR,$Input_Cstr2ARR,$AccurrentARR,$Input_Vstr3ARR,$Input_Cstr3ARR,$FrequencyARR,
+                                                                                    $RT_powerfactorARR,$SuppressionARR,$RecoverytimeARR,$ZeroexportARR,$ZeroexportlogicARR); 
+                                                                                    
+                                                                                }
+
+                                                                $startdate = strtotime("+5 minutes", $startdate);
+                                                        } while($startdate <= $stopdate);
+                                                        
+                                                        $created_atARR[]   =   date('Y-m-d H:i:00', $stopdate);
+                                                        $Pcs_statusARR[]    =   $jj->Pcs_status;
+                                                        $errorARR[]         =   $jj->error_codes->Descript;
+                                                        $RT_poweraccumARR[]  = $jj->RT_poweraccum;
+                                                        $RT_poweroutARR[]   =     $jj->RT_powerout;
+                                                    
+                                                        $Co2ARR[]    =  number_format($jj->RT_poweraccum*$Co2 , 2, '.', '');
+                                                        
+                                                        $RevenueARR[]    =  number_format($jj->RT_poweraccum*$FIT , 2, '.', '');
+                                                        
+                                                        $StatuspowerfactorARR[]   = $jj->Statuspowerfactor;
+                                                        $Input_Cstr1ARR[]  = $jj->Input_Cstr1;
+                                                        $Acvoltage_str1ARR[]  = $jj->Acvoltage_str1;
+                                                        $Input_Vstr2ARR[]  = $jj->Input_Vstr2;
+                                                        $Input_Cstr2ARR[]  = $jj->Input_Cstr2;
+                                                        $AccurrentARR[] = $jj->Accurrent;
+                                                        $Input_Vstr3ARR[] = $jj->Input_Vstr3;
+                                                        $Input_Cstr3ARR[] = $jj->Input_Cstr3;
+                                                        $FrequencyARR[] = $jj->Frequency;
+                                                        $RT_powerfactorARR[] = $jj->RT_powerfactor; 
+                                                        $SuppressionARR[] = $jj->Suppression;  
+                                                        $RecoverytimeARR[] = $jj->Recoverytime;        
+                                                        $ZeroexportARR[] = $jj->Zeroexport;        
+                                                        if(($jj->Zeroexport == "Z0") || ($jj->Zeroexport == "00") )
+                                                            {
+                                                                $ZeroexportlogicARR[] = 0;
+                                                            }
+                                                        elseif($jj->Zeroexport == "Z1")
+                                                            {
+                                                                $ZeroexportlogicARR[] = 1;
+                                                            }  
+                                                        $CSVEXPORT[] = array( $created_atARR, $Pcs_statusARR,$errorARR,$RT_poweraccumARR,$RT_poweroutARR,$Co2ARR,$RevenueARR,$StatuspowerfactorARR,
+                                                        $Input_Cstr1ARR,$Acvoltage_str1ARR,$Input_Vstr2ARR,$Input_Cstr2ARR,$AccurrentARR,$Input_Vstr3ARR,$Input_Cstr3ARR,$FrequencyARR,
+                                                        $RT_powerfactorARR,$SuppressionARR,$RecoverytimeARR,$ZeroexportARR,$ZeroexportlogicARR);                                       
+                                }
+                                $TEMPDATE = $jj->created_at;
+                        }
+
+                $SIZEOFRECORD = sizeof($CSVEXPORT);        
+
+                // Stop Test Are
                 $sheet->mergeCells('A1:G1');
                 $sheet->row(1, function ($row) 
             {
@@ -194,6 +380,8 @@ class Z50exportController extends Controller
                 ->with('SerialNo',$serialnoz50)                    
                 ->with('FIT',$FIT)                    
                 ->with('Co2',$Co2)                    
+                ->with('SIZEOFRECORD',$SIZEOFRECORD)                    
+                ->with('CSVEXPORT',$CSVEXPORT[$SIZEOFRECORD-1])                    
                 ->with('info', $info);
                 
             });

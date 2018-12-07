@@ -80,15 +80,45 @@
             </tr>
         </thead>
     
-    <tbody>
-
-    @for($Record = 0 ; $Record <= $SIZEOFRECORD-1 ; $Record++)
+        <tbody>
+    @foreach($info as $jj)
         <tr style="text-align:center;" >
-                @for($Column = 0 ; $Column <=20 ; $Column++)
-                    <td>{{$CSVEXPORT[$Column][$Record]}}</td>
-                @endfor
+            <td>{{$jj->created_at}}</td>
+            <td>{{$jj->Pcs_status}}</td>
+            <td>{{$jj->error_codes->Descript}}</td>
+            <td>{{$jj->RT_poweraccum}}</td>
+            <td>{{$jj->RT_powerout}}</td>
+            <td><?php
+             echo number_format($jj->RT_poweraccum*$Co2 , 2, '.', '');?>
+            </td> 
+            <td><?php
+             echo number_format($jj->RT_poweraccum*$FIT , 2, '.', '');?>
+            </td>
+            <td>{{$jj->Statuspowerfactor}}</td>
+            <td>{{$jj->Input_Cstr1}}</td>
+            <td>{{$jj->Acvoltage_str1}}</td>
+            <td>{{$jj->Input_Vstr2}}</td>
+            <td>{{$jj->Input_Cstr2}}</td>
+            <td>{{$jj->Accurrent}}</td>
+            <td>{{$jj->Input_Vstr3}}</td>
+            <td>{{$jj->Input_Cstr3}}</td>
+            <td>{{$jj->Frequency}}</td>  
+            <td>{{$jj->RT_powerfactor}}</td>  
+            <td>{{$jj->Suppression}}</td>  
+            <td>{{$jj->Recoverytime}}</td>        
+            <td>{{$jj->Zeroexport}}</td>        
+            @if(($jj->Zeroexport == "Z0") || ($jj->Zeroexport == "00") )
+            
+                <td>0</td>   
+            
+            @elseif($jj->Zeroexport == "Z1")
+            
+                <td>1</td> 
+            
+            @endif
+                        
         </tr>
-    @endfor
+    @endforeach
     </tbody>
     </table>
 </body>

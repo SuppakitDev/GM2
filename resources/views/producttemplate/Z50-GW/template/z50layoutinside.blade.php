@@ -612,10 +612,16 @@ minPadding: 0,
 maxPadding: 0,
 tickInterval: 60 * 1000,
 /* minTickInterval: 60 * 1000 */
+labels: {
+            style: {
+                color: '#fff'
+            }
+        }
 },
 
 yAxis: {
-min:0, 
+    min: 0,
+    max: 5.5,
 title: {
     text: null
 }
