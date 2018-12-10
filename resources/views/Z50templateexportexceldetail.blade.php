@@ -77,6 +77,8 @@
                 <th>Recoverytime</th>
                 <th>Zero Export</th>
                 <th>Zero Export(Logic)</th>
+                <th>Powermetervalue</th>
+                <th>Sum_of_Pinv_and_Ppt</th>
             </tr>
         </thead>
     
@@ -84,7 +86,7 @@
 
     @for($Record = 0 ; $Record <= $SIZEOFRECORD-1 ; $Record++)
         <tr style="text-align:center;" >
-                @for($Column = 0 ; $Column <=20 ; $Column++)
+                @for($Column = 0 ; $Column <=22 ; $Column++)
                     <td>{{$CSVEXPORT[$Column][$Record]}}</td>
                 @endfor
         </tr>

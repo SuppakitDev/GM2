@@ -111,19 +111,48 @@ for($i = 0 ; $i < $COUNT ; $i++)
         $api->Comm_v            = $Comm_v;
         $api->Model_t           = $Model_t;
         $api->SerialNo          = $SerialNo;
-        $api->Program_v         = $Program_v;
+        
+
+// แก้ไขชั่วคราวเกี่ยวกับพารามิเตอร์ที่รับเพิ่มมาจากเพาเวอร์มิเตอร์ 07-12-61
+
+        $Valuetext = str_split($Program_v);
+        $Operator = $Program_v[0];
+        $State = substr($Program_v,-2);
+            if($State == '00')
+            {
+                $api->Program_v                 = $Program_v;
+                $PowermeterValue          = Null; 
+
+            }else
+            {
+                if($Operator == '-')
+                {
+                    $PowermeterValueBuf = substr($Program_v,1,5);
+                    $PowermeterValue = ($PowermeterValueBuf/1000)*-1;
+                    $api->Program_v         = Null;
+                }
+                else
+                {
+                    $PowermeterValueBuf = substr($Program_v,0,5);
+                    $PowermeterValue = ($PowermeterValueBuf/1000);
+                    $api->Program_v         = Null;
+                }
+            }
+            echo $State;
+
+// แก้ไขชั่วคราวเกี่ยวกับพารามิเตอร์ที่รับเพิ่มมาจากเพาเวอร์มิเตอร์ 07-12-61
 
 // เพิ่มการจัดการข้อมูลเกี่ยวกับ ZeroExportMode และ ZeroexportController 
         
         $result = str_split($Program_v);
 
-            if(($result[6] == 'Z') && ($result[7] == '1'))
+            if($State == 'Z1')
             {
                 // $ZeroexportMode = "1";
                 // $ZeroexportControll = "1";
                 $Zeroexport = "Z1";
             }
-            elseif(($result[6] == 'Z') && ($result[7] == '0'))
+            elseif($State == 'Z0')
             {
                 // $ZeroexportMode = "1";
                 // $ZeroexportControll = "0";
@@ -172,6 +201,7 @@ for($i = 0 ; $i < $COUNT ; $i++)
         $api->Input_Cstr3       = $Input_Cstr3;
         $api->Frequency         = $Frequency;
         $api->RT_powerfactor    = $RT_powerfactor;
+        $api->Powermetervalue    = $PowermeterValue;
 
         $api->save();
                 }

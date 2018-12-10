@@ -58,7 +58,7 @@ class Z50exportController extends Controller
                 ->whereDate('created_at' ,'=', Date($Daily))
                 ->where('SerialNo','=',$serialnoz50)
                 ->select('created_at' ,'Pcs_status' ,'Reg_mode','Insp_test','Errorcode','RT_powerout','RT_poweraccum','Statuspowerfactor','Statuspowerfactor','Input_Cstr1','Acvoltage_str1'
-                ,'Input_Vstr2','Input_Cstr2','Accurrent','Input_Vstr3','Input_Cstr3','Frequency','RT_powerfactor','Suppression','Recoverytime' ,'RT_powerout','Zeroexport')
+                ,'Input_Vstr2','Input_Cstr2','Accurrent','Input_Vstr3','Input_Cstr3','Frequency','RT_powerfactor','Suppression','Recoverytime' ,'RT_powerout','Zeroexport','Powermetervalue')
                 ->get();
 
 
@@ -110,14 +110,15 @@ class Z50exportController extends Controller
                                                     {
                                                         $ZeroexportlogicARR[] = 1;
                                                     }  
-                                                               
+                                                $PowermetervalueARR[] = $jj->Powermetervalue;                 
+                                                $Sum_of_Pinv_and_Ppt_ARR[] = $jj->Powermetervalue + $jj->RT_powerout;                 
                                             $CSVEXPORT[] = array( $created_atARR, $Pcs_statusARR,$errorARR,$RT_poweraccumARR,$RT_poweroutARR,$Co2ARR,$RevenueARR,$StatuspowerfactorARR,
                                             $Input_Cstr1ARR,$Acvoltage_str1ARR,$Input_Vstr2ARR,$Input_Cstr2ARR,$AccurrentARR,$Input_Vstr3ARR,$Input_Cstr3ARR,$FrequencyARR,
-                                            $RT_powerfactorARR,$SuppressionARR,$RecoverytimeARR,$ZeroexportARR,$ZeroexportlogicARR);
+                                            $RT_powerfactorARR,$SuppressionARR,$RecoverytimeARR,$ZeroexportARR,$ZeroexportlogicARR,$PowermetervalueARR,$Sum_of_Pinv_and_Ppt_ARR);
                                             
                                              
                                             $TimeStartInterval = new DateTime($jj->created_at);
-                                            $TimeStartInterval->modify('+5 minutes');
+                                            $TimeStartInterval->modify('+6 minutes');
           
                                     }
                                     
@@ -155,17 +156,18 @@ class Z50exportController extends Controller
                                             {
                                                 $ZeroexportlogicARR[] = 1;
                                             }  
-                                              
+                                            $PowermetervalueARR[] = $jj->Powermetervalue;                 
+                                            $Sum_of_Pinv_and_Ppt_ARR[] = $jj->Powermetervalue + $jj->RT_powerout;                 
                                             $CSVEXPORT[] = array( $created_atARR, $Pcs_statusARR,$errorARR,$RT_poweraccumARR,$RT_poweroutARR,$Co2ARR,$RevenueARR,$StatuspowerfactorARR,
                                             $Input_Cstr1ARR,$Acvoltage_str1ARR,$Input_Vstr2ARR,$Input_Cstr2ARR,$AccurrentARR,$Input_Vstr3ARR,$Input_Cstr3ARR,$FrequencyARR,
-                                            $RT_powerfactorARR,$SuppressionARR,$RecoverytimeARR,$ZeroexportARR,$ZeroexportlogicARR);  
+                                            $RT_powerfactorARR,$SuppressionARR,$RecoverytimeARR,$ZeroexportARR,$ZeroexportlogicARR,$PowermetervalueARR,$Sum_of_Pinv_and_Ppt_ARR); 
                                             
                                             $TimeStartInterval = new DateTime($jj->created_at);
-                                            $TimeStartInterval->modify('+5 minutes');
+                                            $TimeStartInterval->modify('+6 minutes');
 
                                        }     
                                     else{
-                                                        $startdate=strtotime("+5 minutes".$TEMPDATE);
+                                                        $startdate=strtotime("+6 minutes".$TEMPDATE);
                                                         $stopdate=strtotime($jj->created_at);
                                                     do {
                                                            
@@ -193,10 +195,11 @@ class Z50exportController extends Controller
                                                                                     $ZeroexportARR[] = 0;       
                                                                                     $ZeroexportlogicARR[] = 0;
 
-
+                                                                                    $PowermetervalueARR[] = 0;                 
+                                                                                    $Sum_of_Pinv_and_Ppt_ARR[] = 0;                 
                                                                                     $CSVEXPORT[] = array( $created_atARR, $Pcs_statusARR,$errorARR,$RT_poweraccumARR,$RT_poweroutARR,$Co2ARR,$RevenueARR,$StatuspowerfactorARR,
                                                                                     $Input_Cstr1ARR,$Acvoltage_str1ARR,$Input_Vstr2ARR,$Input_Cstr2ARR,$AccurrentARR,$Input_Vstr3ARR,$Input_Cstr3ARR,$FrequencyARR,
-                                                                                    $RT_powerfactorARR,$SuppressionARR,$RecoverytimeARR,$ZeroexportARR,$ZeroexportlogicARR); 
+                                                                                    $RT_powerfactorARR,$SuppressionARR,$RecoverytimeARR,$ZeroexportARR,$ZeroexportlogicARR,$PowermetervalueARR,$Sum_of_Pinv_and_Ppt_ARR);
                                                                                     
                                                                                 }
 
@@ -234,9 +237,13 @@ class Z50exportController extends Controller
                                                             {
                                                                 $ZeroexportlogicARR[] = 1;
                                                             }  
-                                                        $CSVEXPORT[] = array( $created_atARR, $Pcs_statusARR,$errorARR,$RT_poweraccumARR,$RT_poweroutARR,$Co2ARR,$RevenueARR,$StatuspowerfactorARR,
-                                                        $Input_Cstr1ARR,$Acvoltage_str1ARR,$Input_Vstr2ARR,$Input_Cstr2ARR,$AccurrentARR,$Input_Vstr3ARR,$Input_Cstr3ARR,$FrequencyARR,
-                                                        $RT_powerfactorARR,$SuppressionARR,$RecoverytimeARR,$ZeroexportARR,$ZeroexportlogicARR);                                       
+                                                            $PowermetervalueARR[] = $jj->Powermetervalue;                 
+                                                            $Sum_of_Pinv_and_Ppt_ARR[] = $jj->Powermetervalue + $jj->RT_powerout;                 
+                                                            $CSVEXPORT[] = array( $created_atARR, $Pcs_statusARR,$errorARR,$RT_poweraccumARR,$RT_poweroutARR,$Co2ARR,$RevenueARR,$StatuspowerfactorARR,
+                                                            $Input_Cstr1ARR,$Acvoltage_str1ARR,$Input_Vstr2ARR,$Input_Cstr2ARR,$AccurrentARR,$Input_Vstr3ARR,$Input_Cstr3ARR,$FrequencyARR,
+                                                            $RT_powerfactorARR,$SuppressionARR,$RecoverytimeARR,$ZeroexportARR,$ZeroexportlogicARR,$PowermetervalueARR,$Sum_of_Pinv_and_Ppt_ARR);              
+                                                            $TimeStartInterval = new DateTime($jj->created_at);
+                                            $TimeStartInterval->modify('+6 minutes');                 
                                 }
                                 $TEMPDATE = $jj->created_at;
                         }
